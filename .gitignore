@@ -1,0 +1,6 @@
+/Core/Inc
+/Core/Startup
+/Drivers
+/.settings
+*.ld
+*.ioc
