@@ -26,7 +26,20 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+// AQUI DEBES DEFINIR TU ENUM DE ESTADOS
+typedef enum {
+    ESTADO_INICIO,
+    ESTADO_JUGADOR_VS_JUGADOR,
+    ESTADO_JUGADOR_VS_PC,
+    ESTADO_ELEGIR_SECUENCIA,
+	ESTADO_ELEGIR_SECUENCIA_PC,
+    ESTADO_ADIVINAR_SECUENCIA,
+    ESTADO_VICTORIA,
+	ESTADO_DERROTA
+} GameState_t;
 
+// AQUI DEBES DECLARAR LA VARIABLE GLOBAL PARA QUE OTROS ARCHIVOS C LA PUEDAN USAR
+extern GameState_t gameState;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -45,7 +58,8 @@ ADC_HandleTypeDef hadc1;
 TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN PV */
-
+// AQUI SE DEFINE LA VARIABLE GLOBAL
+GameState_t gameState;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -94,18 +108,130 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-
+  // AQUI SE INICIALIZA LA VARIABLE
+  gameState = ESTADO_INICIO;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-    /* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
+	  while (1)
+	      {
+	          // La lógica principal del juego se ejecuta aquí, basándose en el estado actual.
+	          switch (gameState) {
+
+	              case ESTADO_INICIO:
+	                  // Tarea: Mostrar mensaje de inicio o LED de estado.
+	                  // Evento de Transición: Esperar la elección de modo (JvsJ o JvsPC).
+
+
+	            	  if (flag_ModoSeleccionado == JvsPC)
+	            	  {
+	                      gameState = ESTADO_JUGADOR_VS_PC;
+	            	  }
+	                  if (flag_ModoSeleccionado == JvsJ)
+	                  {
+	                	  gameState = ESTADO_JUGADOR_VS_JUGADOR;
+
+	                  }
+	                  break;
+
+	              case ESTADO_JUGADOR_VS_JUGADOR:
+	                  //  Pasa  a elegir la secuencia .
+	                  gameState = ESTADO_ELEGIR_SECUENCIA;
+	                  break;
+
+	              case ESTADO_JUGADOR_VS_PC:
+	                  // Tarea: La PC genera la secuencia secreta (debe hacerse solo una vez por juego).
+	                  // game_logic_GenerarSecuenciaPC();
+
+	                  // Evento de Transición: Pasar a la fase de adivinanza.
+	                  gameState = ESTADO_ELEGIR_SECUENCIA_PC;
+	                  break;
+	              case ESTADO_ELEGIR_SECUENCIA_PC:
+	            	  // Tarea: ELEGIR SECUENCIA RANDOM Y PASAR A ADIVINAR
+
+	              { //
+	            	  // Ya que no usamos el LDR de confirmación, pasamos a adivinar (J2).
+	            	  gameState = ESTADO_ADIVINAR_SECUENCIA;
+	              }
+	              	     break;
+	              case ESTADO_ELEGIR_SECUENCIA:
+	            	  // Tarea: Esperar las 5 pulsaciones del Jugador 1 para definir el objetivo.
+	                  // La lógica de guardado es manejada por Interrupciones EXTI.
+
+	            	  // Evento de Transición: 5 pulsaciones completadas.
+	            	  if (game_logic_IsSecuenciaCompleta(MODO_ELEGIR)) {
+	                      // Ya que no usamos el LDR de confirmación, pasamos a adivinar .
+	                	  gameState = ESTADO_ADIVINAR_SECUENCIA;
+	                  }
+	                  break;
+
+	              case ESTADO_ADIVINAR_SECUENCIA:
+	            	  // Tarea: Esperar las 5 pulsaciones del Jugador 2 (o Jugador 1 en JvsPC).
+	            	  // La lógica de guardado es manejada por Interrupciones EXTI.
+
+	                  // Evento de Transición: 5 pulsaciones completadas.
+	                  if (game_logic_IsSecuenciaCompleta(MODO_ADIVINAR))
+	                  {
+
+	                      // --- EVALUACIÓN INSTANTÁNEA (SIN CONFIRMACIÓN LDR) ---
+	                	  // 1. Evaluar el intento (verde exacto / amarillo parcial/ rojo incorecto)
+	                      // game_logic_EvaluarIntento();
+
+	                	  // 2. Comprobar resultado
+	                	  // 3.Esperar a que resultado corecto o + 4 intentos
+	                	  if (/* SI NI ACIERTA NI INTENTOS > 4*/)
+	                	  {
+
+	                		  gameState = ESTADO_ADIVINAR_SECUENCIA;
+	                		  //intentos++;
+	                	  }else
+	                	  {
+	                		  if (/* WIN*/)
+	                		  {
+	                			  gameState = ESTADO_VICTORIA;
+	                		  }else gameState=ESTADO_DERROTA;
+
+	                	  }
+
+
+
+
+	                  }
+	                  break;
+
+	              case ESTADO_VICTORIA:
+	                  // Tarea: Mostrar el resultado final victoria
+	                  // io_handler_MostrarResultadoFinal(game_logic_IsWin());
+
+	                  // Evento de Transición: Esperar un pulsador de RESET o un retardo
+	                  // HAL_Delay(5000);
+
+	                  // Volver a empezar
+	                  gameState = ESTADO_INICIO;
+	                  break;
+	              case ESTADO_DERROTA:
+	            	  // Tarea: Mostrar el resultado final derrota
+	            	  // io_handler_MostrarResultadoFinal(game_logic_IsWin());
+
+	            	  // Evento de Transición: Esperar un pulsador de RESET o un retardo
+	            	  // HAL_Delay(5000);
+
+	            	  // Volver a empezar
+	            	  gameState = ESTADO_INICIO;
+	            	  break;
+
+	              default:
+	            	  // Estado de seguridad si ocurre un error
+	            	  gameState = ESTADO_INICIO;
+	            	  break;
+	          }
+	          /* USER CODE END WHILE */
+
+	          /* USER CODE BEGIN 3 */
+	      }
+
 }
 
 /**
