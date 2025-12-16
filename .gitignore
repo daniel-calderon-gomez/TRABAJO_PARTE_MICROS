@@ -4,3 +4,5 @@
 /.settings
 *.ld
 *.ioc
+/Debug/Core
+/Debug
