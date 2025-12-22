@@ -1,11 +1,16 @@
-/*
- * Coordinador.c
- *
- *  Created on: Dec 22, 2025
- *      Author: ariel
- */
-
+//se encarga de la maquina de estados global del proyecto
 #include "Coordinador.h"
 
-void Coordinador_Init(void) {}
-void Coordinador_Update(void) {}
+static FSM_JUEGO estado;
+
+void Coordinador_Init(void) {
+	estado=INICIO;
+}
+void Coordinador_Update(void) {
+	switch (estado){	//completar segun avancemos
+	case INICIO:
+		break;
+	default:
+		break;
+	}
+}

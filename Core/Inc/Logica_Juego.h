@@ -1,9 +1,4 @@
-/*
- * Logica_Juego.h
- *
- *  Created on: Dec 22, 2025
- *      Author: ariel
- */
+//se define la secuencia secreta, se compara el color y posicion, contadores de turno y posiciones, condiciones de victoria... SOLO LOGICA DE CODIGO
 
 #ifndef INC_LOGICA_JUEGO_H_
 #define INC_LOGICA_JUEGO_H_
