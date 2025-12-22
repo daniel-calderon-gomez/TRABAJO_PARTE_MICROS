@@ -5,7 +5,14 @@
  *      Author: ariel
  */
 #include "Juego.h"
+#include "Coordinador.h"
 
-void Juego_Init(void) {}
-void Juego_Update(void) {}
+
+void Juego_Init(void) {
+	Coordinador_Init();
+}
+
+void Juego_Ejecutar(void) {
+	Coordinador_Update();
+}
 

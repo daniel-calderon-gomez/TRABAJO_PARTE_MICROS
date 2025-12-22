@@ -9,6 +9,6 @@
 #define INC_JUEGO_H_
 
 void Juego_Init(void);
-void Juego_Update(void);
+void Juego_Ejecutar(void);
 
 #endif /* INC_JUEGO_H_ */
