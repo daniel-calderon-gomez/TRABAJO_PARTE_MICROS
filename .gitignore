@@ -6,3 +6,5 @@
 *.bin
 *.hex
 *.map
+/Drivers
+TRABAJO_MICROS Debug.launch
