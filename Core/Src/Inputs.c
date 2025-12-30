@@ -1,15 +1,27 @@
-/*
- * Inputs.c
- *
- *  Created on: Dec 22, 2025
- *      Author: ariel
- */
+#define SIN_BOTON 200
+#define BOTON_ROJO_MIN 300
+#define BOTON_ROJO_MAX 700
+#define BOTON_VERDE_MIN 800
+#define BOTON_VERDE_MAX 1200
+#define BOTON_AZUL_MIN 1300
+#define BOTON_AZUL_MAX 1700
+#define BOTON_AMARILLO_MIN 1800
+#define BOTON_AMARILLO_MAX 2200
+#define BOTON_BLANCO_MIN 2300
+#define BOTON_BLANCO_MAX 2700
+
 #include "Inputs.h"
 #include "main.h"
 
+
+
 EventoInput Evento;
 static EventoInput eventoActual = NONE;
+static EventoInput ultimoBoton = NONE;
+
 static uint16_t valorPoten=0;
+static uint16_t valorBoton=0;
+
 
 
 void Inputs_Init(void) {
@@ -17,17 +29,54 @@ void Inputs_Init(void) {
 	valorPoten=0;
 }
 
+static uint16_t LecturaADC(uint32_t canal)	//cambio de canal en la lectura del ADC
+{
+	ADC_ChannelConfTypeDef sConfig = {0};
 
+	sConfig.Channel = canal;
+	sConfig.Rank = 1;
+	sConfig.SamplingTime = ADC_SAMPLETIME_84CYCLES;
+    HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+
+    HAL_ADC_Start(&hadc1);
+
+    //bloquea la ejecucion hasta que ADC finalice
+    HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+
+    uint16_t valor = HAL_ADC_GetValue(&hadc1);
+    HAL_ADC_Stop(&hadc1);
+
+    return valor;
+}
 void Inputs_Update(void) {
-	//Lectura potenciometro
 
-	HAL_ADC_Start(&hadc1);
+	//lectura potenciometro
+	valorPoten = LecturaADC(ADC_POTEN_CHANNEL);
 
-	//bloquea la ejecucion hasta que ADC finalice
-	HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+	//lectura botones
+	valorBoton = LecturaADC(ADC_BOTON_CHANNEL);
 
-	valorPoten = HAL_ADC_GetValue(&hadc1);
-	HAL_ADC_Stop(&hadc1);
+
+	//logica de boton pulsado
+	EventoInput botonPulsando=NONE;
+
+	if (valorBoton > BOTON_ROJO_MIN && valorBoton < BOTON_ROJO_MAX)
+		botonPulsando = INPUT_ROJO;
+	else if (valorBoton > BOTON_VERDE_MIN && valorBoton < BOTON_VERDE_MAX)
+		botonPulsando = INPUT_VERDE;
+	else if (valorBoton > BOTON_AZUL_MIN && valorBoton < BOTON_AZUL_MAX)
+		botonPulsando = INPUT_AZUL;
+	else if (valorBoton > BOTON_AMARILLO_MIN && valorBoton < BOTON_AMARILLO_MAX)
+		botonPulsando = INPUT_AMARILLO;
+	else if (valorBoton > BOTON_BLANCO_MIN && valorBoton < BOTON_BLANCO_MAX)
+		botonPulsando = INPUT_BLANCO;
+	else
+		botonPulsando = NONE;
+
+	if (botonPulsando != NONE && ultimoBoton == NONE)	//detecta flanco
+	    eventoActual = botonPulsando;
+
+	ultimoBoton = botonPulsando;
 
 }
 

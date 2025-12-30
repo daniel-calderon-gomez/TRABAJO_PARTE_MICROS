@@ -2,6 +2,8 @@
 
 #ifndef INC_INPUTS_H_
 #define INC_INPUTS_H_
+#define ADC_POTEN_CHANNEL   ADC_CHANNEL_1
+#define ADC_BOTON_CHANNEL   ADC_CHANNEL_2
 #include <stdint.h>
 
 typedef enum{		//colocamos eventos es enum

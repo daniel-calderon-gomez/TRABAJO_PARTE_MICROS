@@ -31,8 +31,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define ADC_POTEN_CHANNEL   ADC_CHANNEL_1
-#define ADC_BOTONES_CHANNEL   ADC_CHANNEL_2
+
 
 /* USER CODE END PD */
 
