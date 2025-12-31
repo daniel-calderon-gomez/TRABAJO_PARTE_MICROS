@@ -2,6 +2,7 @@
 #include "Coordinador.h"
 #include "TiposJuego.h"
 #include "Inputs.h"
+#include "Orden_Juego.h"
 
 static FSM_JUEGO estado_actual;
 static ModoJuego modo_juego;
@@ -44,12 +45,16 @@ void Coordinador_Update(void)
 
 
 	case SET_SECUENCIA:
-		//  PC random o jugador define secuencia
+		Orden_Juego_Update();
+		if(Orden_Juego_Terminado())
+			estado_actual = ADIVINAR;
 		break;
 
 
 	case ADIVINAR:
-		// aquí irá la lógica del juego
+		Orden_Juego_Update();
+		if(Orden_Juego_Terminado())
+			//estado_actual = VICTORIA; //o derrota
 		break;
 
 

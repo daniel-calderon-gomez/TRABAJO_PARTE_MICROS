@@ -8,5 +8,5 @@ typedef enum {
 
 void Orden_Juego_Init(void);
 void Orden_Juego_Update(void);
-
+int Orden_Juego_Terminado(void);
 #endif /* INC_ORDEN_JUEGO_H_ */
