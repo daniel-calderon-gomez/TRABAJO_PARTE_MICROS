@@ -15,9 +15,11 @@
 
 
 
-EventoInput Evento;
 static EventoInput eventoActual = NONE;
+
 static EventoInput ultimoBoton = NONE;
+static EventoInput ultimoPoten = NONE;
+
 
 static uint16_t valorPoten=0;
 static uint16_t valorBoton=0;
@@ -48,16 +50,28 @@ static uint16_t LecturaADC(uint32_t canal)	//cambio de canal en la lectura del A
 
     return valor;
 }
+
 void Inputs_Update(void) {
 
 	//lectura potenciometro
 	valorPoten = LecturaADC(ADC_POTEN_CHANNEL);
+	EventoInput potenDetectado = NONE;
+
+	if (valorPoten>100){
+		if (valorPoten<2048)
+			potenDetectado = INPUT_POTEN_PvP;
+		else
+			potenDetectado = INPUT_POTEN_PvPC;
+	}else 	potenDetectado = NONE;
+
+	if(potenDetectado != NONE && ultimoPoten ==NONE)
+		eventoActual=potenDetectado;
+
+	ultimoPoten= potenDetectado;
 
 	//lectura botones
 	valorBoton = LecturaADC(ADC_BOTON_CHANNEL);
 
-
-	//logica de boton pulsado
 	EventoInput botonPulsando=NONE;
 
 	if (valorBoton > BOTON_ROJO_MIN && valorBoton < BOTON_ROJO_MAX)
@@ -87,7 +101,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_PIN){
 
 
 EventoInput GetEvento(void){
-	Evento=eventoActual;
+	EventoInput Evento=eventoActual;
 	eventoActual=NONE;		//cuando acaba un evento hay que actualizar el enum
 	return Evento;
 }

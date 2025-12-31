@@ -13,8 +13,8 @@ typedef enum{		//colocamos eventos es enum
 	INPUT_AZUL,
 	INPUT_AMARILLO,
 	INPUT_BLANCO,
-	INPUT_PvP,
-	INPUT_PvPC,
+	INPUT_POTEN_PvP,
+	INPUT_POTEN_PvPC,
 	INPUT_RESET
 }EventoInput;
 
