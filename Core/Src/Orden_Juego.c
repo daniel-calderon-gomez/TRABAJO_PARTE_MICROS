@@ -2,10 +2,19 @@
 #include "Inputs.h"
 
 static FSM_RondasPartida estado_ronda;
+static ModoOrdenJuego modo;
+
+static EventoInput secuencia_obj[MAX_PULSACIONES];
+static EventoInput secuencia_intento[MAX_PULSACIONES];
+
+static uint8_t pulsaciones_color=0;
+static uint8_t ronda_correcta=1;
 
 
 void Orden_Juego_Init(void) {
 	estado_ronda = RONDA_INICIAL;
+	pulsaciones_color=0;
+	ronda_correcta=1; //solo dice de momento si gano la partida o no. mas adelante enum para encender el RGB en cada intento
 }
 
 
@@ -14,16 +23,34 @@ void Orden_Juego_Update(void)
 	switch (estado_ronda)
 	{
 	case RONDA_INICIAL:
+		pulsaciones_color=0;
+		ronda_correcta=1;
 		estado_ronda = INPUTS_ESPERA;
 		break;
 
 	case INPUTS_ESPERA:
-	    EventoInput ev = GetEvento();
-	    if (ev != NONE)		//para comprobar el flujo del codigo. HABRA QUE CAMBIARLO OJO!!!!
-	        estado_ronda = FIN_RONDA;
+	    EventoInput event = GetEvento();
+
+	    if (event == INPUT_ROJO || event ==INPUT_VERDE || event ==INPUT_AZUL || event == INPUT_AMARILLO|| event ==INPUT_BLANCO){
+	        secuencia_intento[pulsaciones_color]=event;
+
+	        if(modo ==ADIVINAR_SECUENCIA){
+	        	if (event!= secuencia_obj[pulsaciones_color])
+	        		ronda_correcta=0;
+	        }
+
+	    	pulsaciones_color++;
+
+	        if (pulsaciones_color>=MAX_PULSACIONES)
+	        	estado_ronda=FIN_RONDA;
+	    }
 		break;
 
 	case FIN_RONDA:
+		if (modo==CREAR_SECUENCIA){
+			for (int i=0;i<MAX_PULSACIONES;i++)
+				secuencia_obj[i]=secuencia_intento[i];
+		}
 		break;
 	}
 }
@@ -32,3 +59,37 @@ int Orden_Juego_Terminado(void){
 	return (estado_ronda == FIN_RONDA);
 }
 
+
+void OJ_SetModo(ModoOrdenJuego modo){
+	modo=modo;
+}
+
+
+int OJ_Verificacion(void){
+	return ronda_correcta;
+}
+
+
+void SecuenciaRandom(void){
+	for (int i = 0; i < MAX_PULSACIONES; i++)
+	    {
+	        int r = rand() % 5;
+	        switch (r)
+	        {
+	        case 0:
+	        	secuencia_obj[i] = INPUT_ROJO; 	        break;
+
+	        case 1:
+	        	secuencia_obj[i] = INPUT_VERDE; 	        break;
+
+	        case 2:
+	        	secuencia_obj[i] = INPUT_AZUL; 	        break;
+
+	        case 3:
+	        	secuencia_obj[i] = INPUT_AMARILLO; 	    break;
+
+	        case 4:
+	        	secuencia_obj[i] = INPUT_BLANCO; 	        break;
+	        }
+	    }
+}

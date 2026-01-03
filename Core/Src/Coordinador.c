@@ -17,7 +17,7 @@ void Coordinador_Init(void)
 
 void Coordinador_Update(void)
 {
-	EventoInput ev = GetEvento();
+	EventoInput event = GetEvento();
 
 	switch (estado_actual)
 	{
@@ -27,16 +27,16 @@ void Coordinador_Update(void)
 
 
 	case SELECCION_MODO:
-		if(ev==INPUT_RESET){
+		if(event==INPUT_RESET){
 			estado_actual=INICIO;
 			break;
 		}
 
-		if(ev == INPUT_POTEN_PvP){
+		if(event == INPUT_POTEN_PvP){
 			modo_juego = MODO_PvP;
 			estado_actual=SET_SECUENCIA;
 		}
-		else if (ev == INPUT_POTEN_PvPC){
+		else if (event == INPUT_POTEN_PvPC){
 			modo_juego = MODO_PvPC;
 			estado_actual=SET_SECUENCIA;
 		}
@@ -63,14 +63,14 @@ void Coordinador_Update(void)
 
 
 	case VICTORIA:
-		if(ev==INPUT_RESET)
+		if(event==INPUT_RESET)
 			estado_actual=INICIO;
 		// estado final
 		break;
 
 
 	case DERROTA:
-		if(ev==INPUT_RESET)
+		if(event==INPUT_RESET)
 			estado_actual=INICIO;
 		// estado final
 		break;
