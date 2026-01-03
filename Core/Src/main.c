@@ -18,6 +18,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "Inputs.h"
+#include "Coordinador.h"
+#include "Orden_Juego.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -105,6 +108,9 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
+  Inputs_Init();
+  Coordinador_Init();
+  Orden_Juego_Init();
 
   /* USER CODE END 2 */
 
@@ -113,6 +119,9 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+	  Inputs_Update();
+	  Coordinador_Update();
+
 
     /* USER CODE BEGIN 3 */
   }
