@@ -46,15 +46,19 @@ void Coordinador_Update(void)
 
 	case SET_SECUENCIA:
 		Orden_Juego_Update();
-		if(Orden_Juego_Terminado())
+		if(Orden_Juego_Terminado()){
+			Orden_Juego_Init();
 			estado_actual = ADIVINAR;
+		}
 		break;
 
 
 	case ADIVINAR:
 		Orden_Juego_Update();
-		if(Orden_Juego_Terminado())
+		if(Orden_Juego_Terminado())	{			//si se han hecho todos los intentos del turno
+			Orden_Juego_Init();
 			//estado_actual = VICTORIA; //o derrota
+		}
 		break;
 
 
