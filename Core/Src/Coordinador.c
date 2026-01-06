@@ -32,13 +32,20 @@ void Coordinador_Update(void)
 			break;
 		}
 
-		if(event == INPUT_POTEN_PvP){
+		if(event == INPUT_POTEN_PvP)
+		{
 			modo_juego = MODO_PvP;
+			OJ_SetModo(CREAR_SECUENCIA);
+			Orden_Juego_Init();
 			estado_actual=SET_SECUENCIA;
 		}
-		else if (event == INPUT_POTEN_PvPC){
+		else if (event == INPUT_POTEN_PvPC)
+		{
 			modo_juego = MODO_PvPC;
-			estado_actual=SET_SECUENCIA;
+			OJ_SetModo(ADIVINAR_SECUENCIA);
+			SecuenciaRandom();
+			Orden_Juego_Init();
+			estado_actual=ADIVINAR;
 		}
 
 		break;

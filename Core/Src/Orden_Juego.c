@@ -1,5 +1,6 @@
 #include "Orden_Juego.h"
 #include "Inputs.h"
+#include <stdlib.h>
 
 static FSM_RondasPartida estado_ronda;
 static ModoOrdenJuego modo;
@@ -7,14 +8,17 @@ static ModoOrdenJuego modo;
 static EventoInput secuencia_obj[MAX_PULSACIONES];
 static EventoInput secuencia_intento[MAX_PULSACIONES];
 
-static uint8_t pulsaciones_color=0;
-static uint8_t ronda_correcta=1;
+static uint8_t pulsaciones_color=0; //índice dentro de la secuencia de 0 a 4 (5 en total)
+static uint8_t ronda_correcta=1; //si la secuencia es correcta (1) o no (0)
+static uint8_t ronda_terminada = 0; //flag para que el coordinador sepa que terminó
 
 
-void Orden_Juego_Init(void) {
+void Orden_Juego_Init(void)
+{
 	estado_ronda = RONDA_INICIAL;
 	pulsaciones_color=0;
 	ronda_correcta=1; //solo dice de momento si gano la partida o no. mas adelante enum para encender el RGB en cada intento
+	ronda_terminada = 0;
 }
 
 
@@ -25,6 +29,7 @@ void Orden_Juego_Update(void)
 	case RONDA_INICIAL:
 		pulsaciones_color=0;
 		ronda_correcta=1;
+		ronda_terminada = 0;
 		estado_ronda = INPUTS_ESPERA;
 		break;
 
@@ -34,7 +39,8 @@ void Orden_Juego_Update(void)
 	    if (event == INPUT_ROJO || event ==INPUT_VERDE || event ==INPUT_AZUL || event == INPUT_AMARILLO|| event ==INPUT_BLANCO){
 	        secuencia_intento[pulsaciones_color]=event;
 
-	        if(modo ==ADIVINAR_SECUENCIA){
+	        if(modo ==ADIVINAR_SECUENCIA)
+	        {
 	        	if (event!= secuencia_obj[pulsaciones_color])
 	        		ronda_correcta=0;
 	        }
@@ -50,18 +56,26 @@ void Orden_Juego_Update(void)
 		if (modo==CREAR_SECUENCIA){
 			for (int i=0;i<MAX_PULSACIONES;i++)
 				secuencia_obj[i]=secuencia_intento[i];
+			modo = ADIVINAR_SECUENCIA;
+			 estado_ronda = RONDA_INICIAL;
+		}
+		else
+		{
+			ronda_terminada = 1;
 		}
 		break;
 	}
 }
 
-int Orden_Juego_Terminado(void){
-	return (estado_ronda == FIN_RONDA);
+int Orden_Juego_Terminado(void)
+{
+	return ronda_terminada;
 }
 
 
-void OJ_SetModo(ModoOrdenJuego modo){
-	modo=modo;
+void OJ_SetModo(ModoOrdenJuego nuevoModo)
+{
+	modo=nuevoModo;
 }
 
 
