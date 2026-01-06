@@ -6,12 +6,15 @@
 
 static FSM_JUEGO estado_actual;
 static ModoJuego modo_juego;
+static uint8_t intentos;
+#define MAX_INTENTOS 5
 
 
 void Coordinador_Init(void)
 {
 	estado_actual=INICIO;
 	modo_juego = MODO_PvPC;
+	intentos = 0;
 }
 
 
@@ -62,24 +65,45 @@ void Coordinador_Update(void)
 
 	case ADIVINAR:
 		Orden_Juego_Update();
-		if(Orden_Juego_Terminado())	{			//si se han hecho todos los intentos del turno
-			Orden_Juego_Init();
-			//estado_actual = VICTORIA; //o derrota
+		if(Orden_Juego_Terminado())	//si se han hecho todos los intentos del turno
+		{
+			 if (OJ_Verificacion())   // secuencia correcta
+			 {
+				 estado_actual = VICTORIA;
+			 }
+			 else
+			 {
+				 intentos++;
+				 if (intentos >= MAX_INTENTOS)
+				 {
+					 estado_actual = DERROTA;
+				 }
+				 else
+				 {
+					 Orden_Juego_Init();
+				 }
+			 }
 		}
 		break;
 
 
 	case VICTORIA:
 		if(event==INPUT_RESET)
+		{
+			intentos=0;
 			estado_actual=INICIO;
 		// estado final
+		}
 		break;
 
 
 	case DERROTA:
 		if(event==INPUT_RESET)
+		{
+			 intentos = 0;
 			estado_actual=INICIO;
 		// estado final
+		}
 		break;
 
 	default:
