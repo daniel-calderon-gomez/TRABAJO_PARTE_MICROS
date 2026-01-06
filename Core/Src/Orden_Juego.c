@@ -1,5 +1,4 @@
 #include "Orden_Juego.h"
-#include "Inputs.h"
 #include <stdlib.h>
 
 static FSM_RondasPartida estado_ronda;
@@ -8,8 +7,8 @@ static ModoOrdenJuego modo;
 static EventoInput secuencia_obj[MAX_PULSACIONES];
 static EventoInput secuencia_intento[MAX_PULSACIONES];
 
-static uint8_t pulsaciones_color=0; //índice dentro de la secuencia de 0 a 4 (5 en total)
-static uint8_t ronda_correcta=1; //si la secuencia es correcta (1) o no (0)
+static uint8_t pulsaciones_color=0;
+static uint8_t ronda_correcta=1; //si la secuencia es correcta 1
 static uint8_t ronda_terminada = 0; //flag para que el coordinador sepa que terminó
 
 
@@ -22,7 +21,7 @@ void Orden_Juego_Init(void)
 }
 
 
-void Orden_Juego_Update(void)
+void Orden_Juego_Update(EventoInput event)
 {
 	switch (estado_ronda)
 	{
@@ -34,8 +33,6 @@ void Orden_Juego_Update(void)
 		break;
 
 	case INPUTS_ESPERA:
-	    EventoInput event = GetEvento();
-
 	    if (event == INPUT_ROJO || event ==INPUT_VERDE || event ==INPUT_AZUL || event == INPUT_AMARILLO|| event ==INPUT_BLANCO){
 	        secuencia_intento[pulsaciones_color]=event;
 
@@ -56,13 +53,8 @@ void Orden_Juego_Update(void)
 		if (modo==CREAR_SECUENCIA){
 			for (int i=0;i<MAX_PULSACIONES;i++)
 				secuencia_obj[i]=secuencia_intento[i];
-			modo = ADIVINAR_SECUENCIA;
-			 estado_ronda = RONDA_INICIAL;
 		}
-		else
-		{
-			ronda_terminada = 1;
-		}
+		ronda_terminada = 1;
 		break;
 	}
 }
