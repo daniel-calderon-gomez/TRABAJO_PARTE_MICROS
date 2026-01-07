@@ -6,10 +6,12 @@ static ModoOrdenJuego modo;
 
 static EventoInput secuencia_obj[MAX_PULSACIONES];
 static EventoInput secuencia_intento[MAX_PULSACIONES];
+static Resultado resultados[MAX_PULSACIONES];
 
 static uint8_t pulsaciones_color=0;
 static uint8_t ronda_correcta=1; //si la secuencia es correcta 1
 static uint8_t ronda_terminada = 0; //flag para que el coordinador sepa que terminó
+
 
 
 void Orden_Juego_Init(void)
@@ -54,6 +56,10 @@ void Orden_Juego_Update(EventoInput event)
 			for (int i=0;i<MAX_PULSACIONES;i++)
 				secuencia_obj[i]=secuencia_intento[i];
 		}
+		else
+		 {
+			Logica_Juego_Comparar(secuencia_obj, secuencia_intento, resultados);
+		 }
 		ronda_terminada = 1;
 		break;
 	}
@@ -98,4 +104,8 @@ void SecuenciaRandom(void){
 	        	secuencia_obj[i] = INPUT_BLANCO; 	        break;
 	        }
 	    }
+}
+Resultado* OJ_GetResultados(void)
+{
+    return resultados;
 }

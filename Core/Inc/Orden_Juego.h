@@ -2,6 +2,7 @@
 #ifndef INC_ORDEN_JUEGO_H_
 #define INC_ORDEN_JUEGO_H_
 #include "Inputs.h"
+#include "Logica_Juego.h"
 
 #define MAX_PULSACIONES 5
 
@@ -20,5 +21,6 @@ int Orden_Juego_Terminado(void);
 void OJ_SetModo(ModoOrdenJuego modo);
 int OJ_Verificacion(void);
 void SecuenciaRandom(void);
+Resultado* OJ_GetResultados(void);
 
 #endif /* INC_ORDEN_JUEGO_H_ */
