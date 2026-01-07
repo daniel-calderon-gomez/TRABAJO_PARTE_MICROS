@@ -13,9 +13,8 @@ ADC_HandleTypeDef hadc1;
 SPI_HandleTypeDef hspi1;
 
 TIM_HandleTypeDef htim1;
-TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim3;	//channel 3 es el zumbador
 TIM_HandleTypeDef htim4;
-
 
 
 /* Private function prototypes -----------------------------------------------*/
@@ -26,7 +25,6 @@ static void MX_TIM1_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
-
 
 
 

@@ -68,9 +68,6 @@ void Coordinador_Update(void)
 				estado_actual = ADIVINAR;
 			}
 		}
-
-
-
 		break;
 
 
@@ -78,7 +75,7 @@ void Coordinador_Update(void)
 		Orden_Juego_Update(event);
 		if(Orden_Juego_Terminado())	//si se han hecho todos los intentos del turno
 		{
-			 if (OJ_Verificacion())   // secuencia correcta
+			 if (OJ_VerificacionPartida())   // secuencia correcta
 				 estado_actual = VICTORIA;
 			 else
 			 {
@@ -94,6 +91,9 @@ void Coordinador_Update(void)
 
 	case VICTORIA:
 
+		//funcion para zumbido
+		//funcion matriz
+		//estado_actual = INICIO
 		break;
 
 

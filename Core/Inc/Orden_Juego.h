@@ -19,7 +19,7 @@ void Orden_Juego_Update(EventoInput event);
 int Orden_Juego_Terminado(void);
 
 void OJ_SetModo(ModoOrdenJuego modo);
-int OJ_Verificacion(void);
+int OJ_VerificacionPartida(void);
 void SecuenciaRandom(void);
 Resultado* OJ_GetResultados(void);
 

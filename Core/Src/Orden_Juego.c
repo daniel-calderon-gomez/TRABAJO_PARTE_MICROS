@@ -56,28 +56,27 @@ void Orden_Juego_Update(EventoInput event)
 			for (int i=0;i<MAX_PULSACIONES;i++)
 				secuencia_obj[i]=secuencia_intento[i];
 		}
-		else
-		 {
+		else{
 			Logica_Juego_Comparar(secuencia_obj, secuencia_intento, resultados);
+			//funcion enciende led correccion
+			//funcion matriz led
 		 }
 		ronda_terminada = 1;
 		break;
 	}
 }
 
-int Orden_Juego_Terminado(void)
-{
+int Orden_Juego_Terminado(void){
 	return ronda_terminada;
 }
 
 
-void OJ_SetModo(ModoOrdenJuego nuevoModo)
-{
+void OJ_SetModo(ModoOrdenJuego nuevoModo){
 	modo=nuevoModo;
 }
 
 
-int OJ_Verificacion(void){
+int OJ_VerificacionPartida(void){
 	return ronda_correcta;
 }
 
@@ -92,7 +91,7 @@ void SecuenciaRandom(void){
 	        	secuencia_obj[i] = INPUT_ROJO; 	        break;
 
 	        case 1:
-	        	secuencia_obj[i] = INPUT_VERDE; 	        break;
+	        	secuencia_obj[i] = INPUT_VERDE; 	    break;
 
 	        case 2:
 	        	secuencia_obj[i] = INPUT_AZUL; 	        break;
@@ -101,7 +100,7 @@ void SecuenciaRandom(void){
 	        	secuencia_obj[i] = INPUT_AMARILLO; 	    break;
 
 	        case 4:
-	        	secuencia_obj[i] = INPUT_BLANCO; 	        break;
+	        	secuencia_obj[i] = INPUT_BLANCO; 	    break;
 	        }
 	    }
 }

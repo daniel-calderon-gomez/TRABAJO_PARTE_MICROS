@@ -1,23 +1,14 @@
-/*
- * Logica_Juego.c
- *
- *  Created on: Dec 22, 2025
- *      Author: ariel
- */
+
 #include "Logica_Juego.h"
 
 void Logica_Juego_Comparar(EventoInput objetivo[], EventoInput intento[], Resultado resultado[])
 {
-    for (int i = 0; i < MAX_PULSACIONES; i++)
-    {
-
+    for (int i = 0; i < MAX_PULSACIONES; i++){
     	if (intento[i] == objetivo[i])
-        {
-        	resultado[i] = RES_ESTA_CORRECTO;
-        }
+    		resultado[i] = RES_ESTA_CORRECTO;
+
         else
         {
-
             int encontrado = 0;
 
             for (int j = 0; j < MAX_PULSACIONES; j++)
