@@ -3,7 +3,7 @@
 #include "TiposJuego.h"
 #include "Inputs.h"
 #include "Orden_Juego.h"
-
+#include "Zumbador.h"
 #define MAX_INTENTOS 8
 
 static FSM_JUEGO estado_actual;
@@ -11,6 +11,8 @@ static ModoJuego modo_juego;
 
 static uint8_t intentos;
 
+static uint8_t entrar_victoria = 0;
+static uint8_t entrar_derrota = 0;
 
 void Coordinador_Init(void)
 {
@@ -28,6 +30,8 @@ void Coordinador_Update(void)
 	    {
 	        Orden_Juego_Init();
 	        intentos = 0;
+	        entrar_victoria = 0;
+	        entrar_derrota = 0;
 	        estado_actual = INICIO;
 	        return;
 	    }
@@ -76,12 +80,17 @@ void Coordinador_Update(void)
 		if(Orden_Juego_Terminado())	//si se han hecho todos los intentos del turno
 		{
 			 if (OJ_VerificacionPartida())   // secuencia correcta
+			 { entrar_victoria = 1;
 				 estado_actual = VICTORIA;
+			 }
 			 else
 			 {
 				 intentos++;
 				 if (intentos >= MAX_INTENTOS)
+				 {
+					 entrar_derrota = 1;
 					 estado_actual = DERROTA;
+				 }
 				 else
 					 Orden_Juego_Init();
 			 }
@@ -90,15 +99,23 @@ void Coordinador_Update(void)
 
 
 	case VICTORIA:
+		if (entrar_victoria)
+		    {
+		        Zumbador_SetModo(BUZZER_VICTORIA);
+		        entrar_victoria = 0;
+		    }
+		 estado_actual = INICIO;
 
-		//funcion para zumbido
-		//funcion matriz
-		//estado_actual = INICIO
 		break;
 
 
 	case DERROTA:
-
+		if (entrar_derrota)
+		    {
+		        Zumbador_SetModo(BUZZER_DERROTA);
+		        entrar_derrota = 0;
+		    }
+		 estado_actual = INICIO;
 		break;
 
 	default:

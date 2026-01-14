@@ -4,6 +4,7 @@
 #include "Inputs.h"
 #include "Coordinador.h"
 #include "Orden_Juego.h"
+#include "Zumbador.h"
 
 #include <stdlib.h>
 
@@ -46,12 +47,14 @@ int main(void)
   Inputs_Init();
   Coordinador_Init();
   Orden_Juego_Init();
+  Zumbador_Init();
 
   while (1)
   {
     /* USER CODE END WHILE */
 	  Inputs_Update();
 	  Coordinador_Update();
+	  Zumbador_Update();
 
 
     /* USER CODE BEGIN 3 */
