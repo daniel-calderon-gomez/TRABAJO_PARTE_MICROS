@@ -2,6 +2,7 @@
 #include "LedRGB.h"
 #include "Orden_Juego.h"
 #include "TiposJuego.h"
+#include "Matriz_LED.h"
 
 #include <stdlib.h>
 
@@ -23,6 +24,7 @@ static uint8_t ronda_terminada = 0; //flag para que el coordinador sepa que term
 static uint8_t index_feedback =0;
 static uint32_t tiempo_feedback=0;
 
+static uint8_t numero_intento = 0;
 
 void Orden_Juego_Init(void)
 {
@@ -30,6 +32,9 @@ void Orden_Juego_Init(void)
 	pulsaciones_color=0;
 	ronda_correcta=1; //solo dice de momento si gano la partida o no. mas adelante enum para encender el RGB en cada intento
 	ronda_terminada = 0;
+	MAX7219_Init(); //funciones para la matriz
+	MAX7219_Clear();
+	numero_intento =0;
 }
 
 
@@ -50,6 +55,7 @@ void Orden_Juego_Update(EventoInput event)
 
 	        if(modo ==ADIVINAR_SECUENCIA)
 	        {
+	        	MAX7219_Update(numero_intento, pulsaciones_color);//se actualiza la matriz
 	        	if (event!= secuencia_obj[pulsaciones_color])
 	        		ronda_correcta=0;
 	        }
@@ -62,6 +68,7 @@ void Orden_Juego_Update(EventoInput event)
 		break;
 
 	case FIN_RONDA:
+		numero_intento++;
 		if (modo==CREAR_SECUENCIA){
 			for (int i=0;i<MAX_PULSACIONES;i++)
 				secuencia_obj[i]=secuencia_intento[i];
