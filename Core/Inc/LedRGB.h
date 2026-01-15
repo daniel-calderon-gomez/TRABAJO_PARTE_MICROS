@@ -1,14 +1,29 @@
-/*
- * LedRGB.h
- *
- *  Created on: Dec 22, 2025
- *      Author: ariel
- */
-
 #ifndef INC_LEDRGB_H_
 #define INC_LEDRGB_H_
 
-void LedRGB_Init(void);
-void LedRGB_Update(void);
+#include <stdint.h>
+#include "TiposJuego.h"
+
+typedef enum {
+    LEDRGB_OFF,
+    LEDRGB_ROJO,
+    LEDRGB_VERDE,
+    LEDRGB_AZUL,
+    LEDRGB_AMARILLO,
+    LEDRGB_BLANCO
+} LED_Color;
+
+typedef enum {
+    FEEDBACK_ROJO,
+    FEEDBACK_AMARILLO,
+    FEEDBACK_VERDE
+} LED_Feedback;
+
+void LEDRGB_Init(void);
+void LEDRGB_Off(void);
+
+void LEDRGB_SetColor(LED_Color color);
+void LEDRGB_SetFeedback(LED_Feedback feedback);
+
 
 #endif /* INC_LEDRGB_H_ */

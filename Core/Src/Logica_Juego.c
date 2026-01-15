@@ -11,7 +11,7 @@ void Logica_Juego_Comparar(EventoInput objetivo[], EventoInput intento[], Result
         {
             int encontrado = 0;
 
-            for (int j = 0; j < MAX_PULSACIONES; j++)
+            for (int j = 0; j < MAX_PULSACIONES; j++)	//corregir que un verde anterior o posterior puede dar amarillo en otra pposicion
             {
             	if (intento[i] == objetivo[j])
                 {
