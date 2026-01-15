@@ -1,5 +1,13 @@
+#include "stm32f4xx_hal.h"
+#include "LedRGB.h"
 #include "Orden_Juego.h"
+#include "TiposJuego.h"
+
 #include <stdlib.h>
+
+#define LUZFEEDBACK_ON 1000
+#define LUZFEEDBACK_OFF 300
+
 
 static FSM_RondasPartida estado_ronda;
 static ModoOrdenJuego modo;
@@ -12,6 +20,8 @@ static uint8_t pulsaciones_color=0;
 static uint8_t ronda_correcta=1; //si la secuencia es correcta 1
 static uint8_t ronda_terminada = 0; //flag para que el coordinador sepa que terminó
 
+static uint8_t index_feedback =0;
+static uint32_t tiempo_feedback=0;
 
 
 void Orden_Juego_Init(void)
@@ -55,14 +65,48 @@ void Orden_Juego_Update(EventoInput event)
 		if (modo==CREAR_SECUENCIA){
 			for (int i=0;i<MAX_PULSACIONES;i++)
 				secuencia_obj[i]=secuencia_intento[i];
+
+			ronda_terminada=1;
 		}
+
 		else{
 			Logica_Juego_Comparar(secuencia_obj, secuencia_intento, resultados);
-			//funcion enciende led correccion
-			//funcion matriz led
+
+			index_feedback =0;
+			tiempo_feedback = HAL_GetTick();
+			estado_ronda = MOSTRAR_FEEDBACK;
 		 }
-		ronda_terminada = 1;
 		break;
+
+	case MOSTRAR_FEEDBACK:
+	{
+		switch(resultados[index_feedback]){
+			case RES_ESTA_CORRECTO:
+				LEDRGB_SetFeedback(FEEDBACK_VERDE);
+				break;
+			case RES_ESTA_OTRA_POS:
+				LEDRGB_SetFeedback(FEEDBACK_AMARILLO);
+				break;
+			case RES_NO_ESTA:
+			default:
+				LEDRGB_SetFeedback(FEEDBACK_ROJO);
+				break;
+		}
+
+		if((HAL_GetTick()-tiempo_feedback) >= LUZFEEDBACK_ON){	//si pasa el tiempo que tiene q estar encendido
+			LEDRGB_SetFeedback(FEEDBACK_OFF);
+			tiempo_feedback= HAL_GetTick();
+			estado_ronda = FEEDBACK_PAUSA;
+		}
+	}
+	break;
+
+
+	case FEEDBACK_PAUSA:
+	{
+
+	}
+	break;
 	}
 }
 

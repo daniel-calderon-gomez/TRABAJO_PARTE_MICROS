@@ -80,7 +80,8 @@ void Coordinador_Update(void)
 		if(Orden_Juego_Terminado())	//si se han hecho todos los intentos del turno
 		{
 			 if (OJ_VerificacionPartida())   // secuencia correcta
-			 { entrar_victoria = 1;
+			 {
+				 entrar_victoria = 1;
 				 estado_actual = VICTORIA;
 			 }
 			 else

@@ -7,7 +7,7 @@
 #define MAX_PULSACIONES 5
 
 typedef enum {
-	RONDA_INICIAL, INPUTS_ESPERA, FIN_RONDA
+	RONDA_INICIAL, INPUTS_ESPERA, FIN_RONDA, MOSTRAR_FEEDBACK, FEEDBACK_PAUSA
 } FSM_RondasPartida;
 
 typedef enum {		//este enum para gestionar al final que hacer con los inputs
