@@ -14,6 +14,7 @@ typedef enum {
 } LED_Color;
 
 typedef enum {
+	FEEDBACK_OFF,
     FEEDBACK_ROJO,
     FEEDBACK_AMARILLO,
     FEEDBACK_VERDE
@@ -21,10 +22,9 @@ typedef enum {
 
 void LEDRGB_Init(void);
 void LEDRGB_Off(void);
+void LEDRGB_FeedbackOff(void);
 
 void LEDRGB_SetColor1(LED_Color color);
-void LEDRGB_SetColor2(LED_Color color);
-
 void LEDRGB_SetFeedback(LED_Feedback feedback);
 
 

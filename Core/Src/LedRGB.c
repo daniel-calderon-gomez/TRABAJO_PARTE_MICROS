@@ -38,8 +38,10 @@ void LEDRGB_Init(void) {
 
 void LEDRGB_Off(void){
 	PWM_Set1(0,0,0);
-	PWM_Set2(0,0,0);
+}
 
+void LEDRGB_FeedbackOff(void){
+	PWM_Set2(0,0,0);
 }
 
 
@@ -67,32 +69,19 @@ void LEDRGB_SetColor1(LED_Color color){
 
 
 
-void LEDRGB_SetColor2(LED_Color color){
-	switch (color)
-	    {
-	        case LEDRGB_OFF: PWM_Set1(0, 0, 0); break;
-
-	        case LEDRGB_ROJO: PWM_Set1(PWM_MAX, 0, 0); break;
-
-	        case LEDRGB_VERDE: PWM_Set1(0, PWM_MAX, 0); break;
-
-	        case LEDRGB_AMARILLO: PWM_Set1(PWM_MAX, PWM_MAX, 0); break;
-
-	        default: PWM_Set1(0, 0, 0); break;
-	   }
-}
-
-
 void LEDRGB_SetFeedback(LED_Feedback feedback){
 	switch (feedback)
 	    {
-	        case FEEDBACK_VERDE: LEDRGB_SetColor2(LEDRGB_VERDE); break;
+			case FEEDBACK_OFF: PWM_Set2(0,0,0);  break;
 
-	        case FEEDBACK_AMARILLO: LEDRGB_SetColor2(LEDRGB_AMARILLO); break;
+	        case FEEDBACK_VERDE: PWM_Set2(0, PWM_MAX, 0); break;
+
+	        case FEEDBACK_AMARILLO: PWM_Set2(PWM_MAX, PWM_MAX, 0); break;
 
 	        case FEEDBACK_ROJO:
 
-	        default: LEDRGB_SetColor2(LEDRGB_ROJO); break;
+	        default: PWM_Set2(PWM_MAX, 0, 0); break;
+
 	    }
 }
 
