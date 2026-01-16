@@ -70,15 +70,17 @@ void Orden_Juego_Update(EventoInput event)
 		break;
 
 	case FIN_RONDA:
-		numero_intento++;
+
 		if (modo==CREAR_SECUENCIA){
 			for (int i=0;i<MAX_PULSACIONES;i++)
 				secuencia_obj[i]=secuencia_intento[i];
 
 			ronda_terminada=1;
+			MAX7219_Clear();
 		}
 
 		else{
+			numero_intento++;
 			Logica_Juego_Comparar(secuencia_obj, secuencia_intento, resultados);
 
 			index_feedback =0;
