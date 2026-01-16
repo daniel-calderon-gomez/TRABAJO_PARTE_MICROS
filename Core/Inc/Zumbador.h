@@ -11,7 +11,7 @@ typedef enum
 
 
 void Zumbador_Init(void);
-void Zumbador_Update(void);
+void Zumbador_Sonar(void);
 void Zumbador_SetModo(BuzzerModo modo);
-
+int Zumbador_FIN(void);
 #endif /* INC_ZUMBADOR_H_ */

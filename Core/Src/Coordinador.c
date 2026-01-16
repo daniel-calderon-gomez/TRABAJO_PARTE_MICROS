@@ -105,7 +105,9 @@ void Coordinador_Update(void)
 		        Zumbador_SetModo(BUZZER_VICTORIA);
 		        entrar_victoria = 0;
 		    }
-		 estado_actual = INICIO;
+
+		 if (Zumbador_FIN==1)
+			 estado_actual = INICIO;
 
 		break;
 
@@ -116,7 +118,8 @@ void Coordinador_Update(void)
 		        Zumbador_SetModo(BUZZER_DERROTA);
 		        entrar_derrota = 0;
 		    }
-		 estado_actual = INICIO;
+		 if (Zumbador_FIN==1)
+			estado_actual = INICIO;
 		break;
 
 	default:
