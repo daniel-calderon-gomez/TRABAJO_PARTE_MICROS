@@ -30,7 +30,6 @@ void Zumbador_SetModo(BuzzerModo modo){
 }
 
 void Zumbador_Update(void) {
-	uint32_t ahora = HAL_GetTick();
 
 	    switch (modo_actual)
 	    {
@@ -41,9 +40,9 @@ void Zumbador_Update(void) {
 	    case BUZZER_VICTORIA:
 	        if (paso < 6)
 	        {
-	            if ((ahora - tick_inicio) > 200)
+	            if ((HAL_GetTick() - tick_inicio) > 200)
 	            {
-	                tick_inicio = ahora;
+	                tick_inicio = HAL_GetTick();
 	                paso++;
 
 	                if (paso % 2 == 0)
@@ -53,19 +52,18 @@ void Zumbador_Update(void) {
 	            }
 	        }
 	        else
-	        {
 	            modo_actual = BUZZER_IDLE;
-	        }
+
 	        break;
 
 	    case BUZZER_DERROTA:
 	        if (paso == 0)
 	        {
 	            Buzzer_On(700);
-	            tick_inicio = ahora;
+	            tick_inicio = HAL_GetTick();
 	            paso = 1;
 	        }
-	        else if ((ahora - tick_inicio) > 1000)
+	        else if ((HAL_GetTick() - tick_inicio) > 1000)
 	        {
 	            Buzzer_Off();
 	            modo_actual = BUZZER_IDLE;
