@@ -71,6 +71,7 @@ void Coordinador_Update(void)
 			SecuenciaRandom();
 			Orden_Juego_ResetPartida();//Para la matriz
 			Orden_Juego_Init();
+			OJ_SetModo(ADIVINAR_SECUENCIA);
 			estado_actual = ADIVINAR;
 		}else{
 			OJ_SetModo(CREAR_SECUENCIA);
@@ -81,6 +82,7 @@ void Coordinador_Update(void)
 
 			if(Orden_Juego_Terminado()){
 				Orden_Juego_Init();
+				OJ_SetModo(ADIVINAR_SECUENCIA);
 				estado_actual = ADIVINAR;
 			}
 		}

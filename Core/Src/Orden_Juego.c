@@ -52,10 +52,10 @@ void Orden_Juego_Update(EventoInput event)
 	case INPUTS_ESPERA:
 		if(OJ_EsColor(event))
 			OJ_ProcesarColor(event);
-		if (tiempo_led > 0 && (HAL_GetTick() - tiempo_led) >= 300) { // 300ms
+		/*if (tiempo_led > 0 && (HAL_GetTick() - tiempo_led) >= 300) { // 300ms
 		        LEDRGB_SetColor1(LEDRGB_OFF);
 		        tiempo_led = 0; // Resetear para no entrar siempre
-		    }
+		    }*/
 		    break;
 
 
@@ -67,6 +67,9 @@ void Orden_Juego_Update(EventoInput event)
 
 			ronda_terminada=1;
 			MAX7219_Clear();
+			LEDRGB_SetColor1(LEDRGB_OFF);
+
+			estado_ronda = RONDA_INICIAL;
 		}
 
 		else{
@@ -75,6 +78,8 @@ void Orden_Juego_Update(EventoInput event)
 
 			index_feedback =0;
 			tiempo_feedback = HAL_GetTick();
+			LEDRGB_SetColor1(LEDRGB_OFF);
+
 			estado_ronda = MOSTRAR_FEEDBACK;
 		 }
 		break;
