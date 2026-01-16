@@ -51,7 +51,7 @@ static uint16_t LecturaADC(uint32_t canal)	//cambio de canal en la lectura del A
     return valor;
 }
 
-void Inputs_Update(void) {
+void Inputs_Update_pot(void) {
 
 	//lectura potenciometro
 	valorPoten = LecturaADC(ADC_POTEN_CHANNEL);
@@ -69,6 +69,10 @@ void Inputs_Update(void) {
 
 	ultimoPoten= potenDetectado;
 
+}
+
+
+void Inputs_Update_boton(void) {
 	//lectura botones
 	valorBoton = LecturaADC(ADC_BOTON_CHANNEL);
 

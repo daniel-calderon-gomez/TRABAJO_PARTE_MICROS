@@ -19,7 +19,9 @@ typedef enum{		//colocamos eventos es enum
 }EventoInput;
 
 void Inputs_Init(void);
-void Inputs_Update(void);
+void Inputs_Update_pot(void);
+void Inputs_Update_boton(void);
+
 
 EventoInput GetEvento(void);
 uint16_t GetValorPoten(void);		//solo potenciometro pq es valor continuo

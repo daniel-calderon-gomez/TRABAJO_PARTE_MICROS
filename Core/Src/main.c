@@ -48,11 +48,12 @@ int main(void)
   Coordinador_Init();
   Orden_Juego_Init();
   Zumbador_Init();
+  LEDRGB_Init();
+
 
   while (1)
   {
     /* USER CODE END WHILE */
-	  Inputs_Update();
 	  Coordinador_Update();
 
 

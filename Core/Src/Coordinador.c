@@ -45,6 +45,8 @@ void Coordinador_Update(void)
 
 
 	case SELECCION_MODO:
+		  Inputs_Update_pot();
+
 		if(event == INPUT_POTEN_PvP)
 		{
 			modo_juego = MODO_PvP;
@@ -60,6 +62,8 @@ void Coordinador_Update(void)
 
 
 	case SET_SECUENCIA:
+		  Inputs_Update_boton();
+
 		if (modo_juego == MODO_PvPC){
 			SecuenciaRandom();
 			Orden_Juego_Init();
@@ -77,6 +81,8 @@ void Coordinador_Update(void)
 
 
 	case ADIVINAR:
+		Inputs_Update_boton();
+
 		Orden_Juego_Update(event);
 		if(Orden_Juego_Terminado())	//si se han hecho todos los intentos del turno
 		{
@@ -105,10 +111,10 @@ void Coordinador_Update(void)
 		    {
 		        Zumbador_SetModo(BUZZER_VICTORIA);
 		        entrar_victoria = 0;
-		        MAX7219_Victoria;
+		        MAX7219_Victoria();
 		    }
-		Zumbador_Sonar;
-		 if (Zumbador_FIN==1)
+		Zumbador_Sonar();
+		 if (Zumbador_FIN()==1)
 			 estado_actual = INICIO;
 
 		break;
@@ -119,10 +125,10 @@ void Coordinador_Update(void)
 		    {
 		        Zumbador_SetModo(BUZZER_DERROTA);
 		        entrar_derrota = 0;
-		        MAX7219_Derrota;
+		        MAX7219_Derrota();
 		    }
-		Zumbador_Sonar;
-		 if (Zumbador_FIN==1)
+		Zumbador_Sonar();
+		 if (Zumbador_FIN()==1)
 			estado_actual = INICIO;
 		break;
 

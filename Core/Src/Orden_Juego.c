@@ -55,6 +55,9 @@ void Orden_Juego_Update(EventoInput event)
 	    if (event == INPUT_ROJO || event ==INPUT_VERDE || event ==INPUT_AZUL || event == INPUT_AMARILLO|| event ==INPUT_BLANCO){
 	        secuencia_intento[pulsaciones_color]=event;
 
+	        OJ_EvColor(event);
+
+
 	        if(modo ==ADIVINAR_SECUENCIA)
 	        {
 	        	MAX7219_Update(numero_intento, pulsaciones_color);//se actualiza la matriz
@@ -171,4 +174,16 @@ void SecuenciaRandom(void){
 Resultado* OJ_GetResultados(void)
 {
     return resultados;
+}
+
+
+static LED_Color OJ_EvColor(EventoInput e){
+	switch (e) {
+	   case INPUT_ROJO:     return LEDRGB_ROJO;
+	   case INPUT_VERDE:    return LEDRGB_VERDE;
+	   case INPUT_AZUL:     return LEDRGB_AZUL;
+	   case INPUT_AMARILLO: return LEDRGB_AMARILLO;
+	   case INPUT_BLANCO:   return LEDRGB_BLANCO;
+	   default:             return LEDRGB_OFF;
+	    }
 }

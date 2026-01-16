@@ -3,6 +3,10 @@
 #define INC_ORDEN_JUEGO_H_
 #include "Inputs.h"
 #include "Logica_Juego.h"
+#include "stm32f4xx_hal.h"
+#include "LedRGB.h"
+#include "TiposJuego.h"
+#include "Matriz_LED.h"
 
 #define MAX_PULSACIONES 5
 
@@ -22,5 +26,7 @@ void OJ_SetModo(ModoOrdenJuego modo);
 int OJ_VerificacionPartida(void);
 void SecuenciaRandom(void);
 Resultado* OJ_GetResultados(void);
+
+static LED_Color OJ_EvColor(EventoInput e);
 
 #endif /* INC_ORDEN_JUEGO_H_ */

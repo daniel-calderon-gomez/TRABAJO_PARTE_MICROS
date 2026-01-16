@@ -45,8 +45,6 @@ void LEDRGB_FeedbackOff(void){
 }
 
 
-void LedRGB_Update(void) {}
-
 
 void LEDRGB_SetColor1(LED_Color color){
 	switch (color)
