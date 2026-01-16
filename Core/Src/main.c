@@ -54,7 +54,6 @@ int main(void)
     /* USER CODE END WHILE */
 	  Inputs_Update();
 	  Coordinador_Update();
-	  Zumbador_Update();
 
 
     /* USER CODE BEGIN 3 */

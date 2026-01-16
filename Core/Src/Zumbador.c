@@ -24,51 +24,48 @@ void Zumbador_Init(void) {
 }
 
 void Zumbador_SetModo(BuzzerModo modo){
-    modo_actual = modo;
     tick_inicio = HAL_GetTick();
     paso = 0;
+
+    switch (modo)
+    {
+    case BUZZER_IDLE:
+        Buzzer_Off();
+        break;
+
+    case BUZZER_VICTORIA:
+        if (paso < 6)
+        {
+            if ((HAL_GetTick() - tick_inicio) > 200)
+            {
+                tick_inicio = HAL_GetTick();
+                paso++;
+
+                if (paso % 2 == 0)
+                    Buzzer_On(500);
+                else
+                    Buzzer_Off();
+            }
+        }
+        else
+            modo_actual = BUZZER_IDLE;
+
+        break;
+
+    case BUZZER_DERROTA:
+        if (paso == 0)
+        {
+            Buzzer_On(700);
+            tick_inicio = HAL_GetTick();
+            paso = 1;
+        }
+        else if ((HAL_GetTick() - tick_inicio) > 1000)
+        {
+            Buzzer_Off();
+            modo_actual = BUZZER_IDLE;
+        }
+        break;
+    }
 }
 
-void Zumbador_Update(void) {
-
-	    switch (modo_actual)
-	    {
-	    case BUZZER_IDLE:
-	        Buzzer_Off();
-	        break;
-
-	    case BUZZER_VICTORIA:
-	        if (paso < 6)
-	        {
-	            if ((HAL_GetTick() - tick_inicio) > 200)
-	            {
-	                tick_inicio = HAL_GetTick();
-	                paso++;
-
-	                if (paso % 2 == 0)
-	                    Buzzer_On(500);
-	                else
-	                    Buzzer_Off();
-	            }
-	        }
-	        else
-	            modo_actual = BUZZER_IDLE;
-
-	        break;
-
-	    case BUZZER_DERROTA:
-	        if (paso == 0)
-	        {
-	            Buzzer_On(700);
-	            tick_inicio = HAL_GetTick();
-	            paso = 1;
-	        }
-	        else if ((HAL_GetTick() - tick_inicio) > 1000)
-	        {
-	            Buzzer_Off();
-	            modo_actual = BUZZER_IDLE;
-	        }
-	        break;
-	    }
-}
 
