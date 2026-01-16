@@ -46,16 +46,16 @@ int main(void)
 
   Inputs_Init();
   Coordinador_Init();
-  Orden_Juego_Init();
   Zumbador_Init();
   LEDRGB_Init();
+  MAX7219_Init();
 
 
   while (1)
   {
     /* USER CODE END WHILE */
 	  Coordinador_Update();
-	  HAL_Delay(10); // 10ms para estabilidad
+	  HAL_Delay(5); // 5ms para estabilidad
 
     /* USER CODE BEGIN 3 */
   }

@@ -1,9 +1,8 @@
-/*
- * Coordinador.h
- *
- *  Created on: Dec 22, 2025
- *      Author: ariel
- */
+#include "TiposJuego.h"
+#include "Inputs.h"
+#include "Orden_Juego.h"
+#include "Zumbador.h"
+#include "Matriz_LED.h"
 
 #ifndef INC_COORDINADOR_H_
 #define INC_COORDINADOR_H_

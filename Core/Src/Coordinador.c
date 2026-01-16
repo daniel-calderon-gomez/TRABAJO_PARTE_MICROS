@@ -1,10 +1,6 @@
 //se encarga de la maquina de estados global del proyecto
 #include "Coordinador.h"
-#include "TiposJuego.h"
-#include "Inputs.h"
-#include "Orden_Juego.h"
-#include "Zumbador.h"
-#include "Matriz_LED.h"
+
 #define MAX_INTENTOS 8
 
 static volatile FSM_JUEGO estado_actual;
@@ -30,21 +26,29 @@ void Coordinador_Update(void)
 {
 
 	if (event == INPUT_RESET)
-	    {
-	        Orden_Juego_Init();
-	        intentos = 0;
-	        entrar_victoria = 0;
-	        entrar_derrota = 0;
-	        estado_actual = INICIO;
-	        return;
-	    }
+	{
+		Coordinador_Init();
+		Inputs_Init();
+		Orden_Juego_Init();
+
+		MAX7219_Clear();
+		LEDRGB_Off();
+		LEDRGB_FeedbackOff();
+
+		entrar_victoria = 0;
+		entrar_derrota = 0;
+		return;
+	}
 
 	switch (estado_actual)
 	{
 	case INICIO:
-
-		 estado_actual = SELECCION_MODO;
-		 break;
+		Orden_Juego_Init();
+		intentos = 0;
+		entrar_victoria = 0;
+		entrar_derrota = 0;
+		estado_actual = SELECCION_MODO;
+		break;
 
 
 	case SELECCION_MODO:
@@ -69,7 +73,7 @@ void Coordinador_Update(void)
 
 		if (modo_juego == MODO_PvPC){
 			SecuenciaRandom();
-			Orden_Juego_ResetPartida();//Para la matriz
+			//Orden_Juego_ResetPartida();//Para la matriz
 			Orden_Juego_Init();
 			OJ_SetModo(ADIVINAR_SECUENCIA);
 			estado_actual = ADIVINAR;
@@ -77,7 +81,7 @@ void Coordinador_Update(void)
 			OJ_SetModo(CREAR_SECUENCIA);
 			Inputs_Update_boton();
 			event = GetEvento();
-			Orden_Juego_ResetPartida();//Para la matriz
+			//Orden_Juego_ResetPartida();//Para la matriz
 			Orden_Juego_Update(event);
 
 			if(Orden_Juego_Terminado()){

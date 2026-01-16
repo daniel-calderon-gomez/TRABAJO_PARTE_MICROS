@@ -41,7 +41,7 @@ void MAX7219_Clear(void) {
 // Enciende un led sin apagar los anteriores
 void MAX7219_SetPixel(uint8_t row, uint8_t col) {
     if (row > 7 || col > 7) return;
-    matrix_buffer[row] |= (1 << (7-col)); //se cambia el buffer
+    matrix_buffer[row] |= (1 << col); //se cambia el buffer
 
     MAX7219_Write(REG_DIGIT_0 + row, matrix_buffer[row]);
 }

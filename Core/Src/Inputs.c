@@ -29,6 +29,7 @@ static uint16_t valorBoton=0;
 void Inputs_Init(void) {
 	eventoActual = NONE;
 	valorPoten=0;
+	valorBoton=0;
 }
 
 static uint16_t LecturaADC(uint32_t canal)	//cambio de canal en la lectura del ADC
