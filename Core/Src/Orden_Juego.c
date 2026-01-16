@@ -21,8 +21,8 @@ static uint8_t pulsaciones_color=0;
 static uint8_t ronda_correcta=1; //si la secuencia es correcta 1
 static uint8_t ronda_terminada = 0; //flag para que el coordinador sepa que terminó
 
-static uint8_t index_feedback =0;
-static uint32_t tiempo_feedback=0;
+static uint8_t index_feedback = 0;
+static uint32_t tiempo_feedback = 0;
 
 static uint8_t numero_intento = 0;
 
@@ -46,6 +46,8 @@ void Orden_Juego_Update(EventoInput event)
 		pulsaciones_color=0;
 		ronda_correcta=1;
 		ronda_terminada = 0;
+		index_feedback=0;
+		tiempo_feedback=0;
 		estado_ronda = INPUTS_ESPERA;
 		break;
 
@@ -111,7 +113,16 @@ void Orden_Juego_Update(EventoInput event)
 
 	case FEEDBACK_PAUSA:
 	{
-
+		if ((HAL_GetTick()-tiempo_feedback) >= LUZFEEDBACK_OFF){
+			index_feedback++;
+			if(index_feedback>=MAX_PULSACIONES){
+				ronda_terminada=1;
+				estado_ronda=RONDA_INICIAL;
+			}else {
+				tiempo_feedback= HAL_GetTick();
+				estado_ronda = MOSTRAR_FEEDBACK;
+			}
+		}
 	}
 	break;
 	}
