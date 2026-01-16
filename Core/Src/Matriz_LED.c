@@ -50,3 +50,42 @@ void MAX7219_SetPixel(uint8_t row, uint8_t col) {
 void MAX7219_Update(uint8_t intento, uint8_t paso) {
     MAX7219_SetPixel(intento, paso);
 }
+
+// Dibuja una carita feliz en la matriz
+void MAX7219_Victoria(void) {
+    // Mapa de bits de la carita feliz
+    uint8_t feliz[8] = {
+        0x3C, // Fila 0
+        0x42, // Fila 1
+        0xA5, // Fila 2 (Ojos)
+        0x81, // Fila 3
+        0xA5, // Fila 4 (Sonrisa alta)
+        0x99, // Fila 5 (Sonrisa baja)
+        0x42, // Fila 6
+        0x3C  // Fila 7
+    };
+
+    for (int i = 0; i < 8; i++) {
+        matrix_buffer[i] = feliz[i];          // 1. Actualizamos el buffer interno
+        MAX7219_Write(REG_DIGIT_0 + i, feliz[i]); // 2. Escribimos en el chip
+    }
+}
+
+// Dibuja una carita triste (útil para Game Over)
+void MAX7219_Derrota(void) {
+    uint8_t triste[8] = {
+        0x3C, // Fila 0
+        0x42, // Fila 1
+        0xA5, // Fila 2 (Ojos)
+        0x81, // Fila 3
+        0x99, // Fila 4 (Boca baja - mueca)
+        0xA5, // Fila 5 (Boca alta - mueca)
+        0x42, // Fila 6
+        0x3C  // Fila 7
+    };
+
+    for (int i = 0; i < 8; i++) {
+        matrix_buffer[i] = triste[i];
+        MAX7219_Write(REG_DIGIT_0 + i, triste[i]);
+    }
+}

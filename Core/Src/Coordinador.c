@@ -4,6 +4,7 @@
 #include "Inputs.h"
 #include "Orden_Juego.h"
 #include "Zumbador.h"
+#include "Matriz_LED.h"
 #define MAX_INTENTOS 8
 
 static FSM_JUEGO estado_actual;
@@ -104,8 +105,9 @@ void Coordinador_Update(void)
 		    {
 		        Zumbador_SetModo(BUZZER_VICTORIA);
 		        entrar_victoria = 0;
+		        MAX7219_Victoria;
 		    }
-
+		Zumbador_Sonar;
 		 if (Zumbador_FIN==1)
 			 estado_actual = INICIO;
 
@@ -117,7 +119,9 @@ void Coordinador_Update(void)
 		    {
 		        Zumbador_SetModo(BUZZER_DERROTA);
 		        entrar_derrota = 0;
+		        MAX7219_Derrota;
 		    }
+		Zumbador_Sonar;
 		 if (Zumbador_FIN==1)
 			estado_actual = INICIO;
 		break;

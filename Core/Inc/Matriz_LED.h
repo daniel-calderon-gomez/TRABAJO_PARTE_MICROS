@@ -16,5 +16,6 @@ void MAX7219_Init(void);
 void MAX7219_Clear(void);
 void MAX7219_SetPixel(uint8_t row, uint8_t col);
 void MAX7219_Update(uint8_t intento, uint8_t paso);
-
+void MAX7219_Victoria(void);
+void MAX7219_Derrota(void);
 #endif /* INC_MAX7219_MATRIX_H_ */
