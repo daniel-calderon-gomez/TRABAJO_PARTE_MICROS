@@ -30,9 +30,6 @@ void Orden_Juego_Init(void)
 	pulsaciones_color=0;
 	ronda_correcta=1; //solo dice de momento si gano la partida o no. mas adelante enum para encender el RGB en cada intento
 	ronda_terminada = 0;
-	MAX7219_Init(); //funciones para la matriz
-	MAX7219_Clear();
-	numero_intento =0;
 }
 
 
@@ -54,8 +51,12 @@ void Orden_Juego_Update(EventoInput event)
 
 	case INPUTS_ESPERA:
 		if(OJ_EsColor(event))
-					OJ_ProcesarColor(event);
-		break;
+			OJ_ProcesarColor(event);
+		if (tiempo_led > 0 && (HAL_GetTick() - tiempo_led) >= 300) { // 300ms
+		        LEDRGB_SetColor1(LEDRGB_OFF);
+		        tiempo_led = 0; // Resetear para no entrar siempre
+		    }
+		    break;
 
 
 	case FIN_RONDA:
@@ -179,8 +180,6 @@ void OJ_ProcesarColor(EventoInput event)
     secuencia_intento[pulsaciones_color] = event;
     OJ_EvColor(event);
     tiempo_led=HAL_GetTick();
-    if ((HAL_GetTick()-tiempo_led) >= LUZFEEDBACK_ON) //se mantiene el feedback porque dura tmabien un segundo
-    	LEDRGB_FeedbackOff();
 
 
     if (modo == ADIVINAR_SECUENCIA)
@@ -201,4 +200,12 @@ int OJ_EsColor(EventoInput event)
 {
     return (event == INPUT_ROJO || event == INPUT_VERDE || event == INPUT_AZUL ||
             event == INPUT_AMARILLO || event == INPUT_BLANCO);
+}
+
+void Orden_Juego_ResetPartida(void)//para la matriz
+{
+    numero_intento = 0;
+    MAX7219_Init();
+    MAX7219_Clear();
+    Orden_Juego_Init();
 }

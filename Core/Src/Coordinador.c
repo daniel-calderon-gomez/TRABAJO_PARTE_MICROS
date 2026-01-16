@@ -42,6 +42,7 @@ void Coordinador_Update(void)
 	switch (estado_actual)
 	{
 	case INICIO:
+
 		 estado_actual = SELECCION_MODO;
 		 break;
 
@@ -68,12 +69,14 @@ void Coordinador_Update(void)
 
 		if (modo_juego == MODO_PvPC){
 			SecuenciaRandom();
+			Orden_Juego_ResetPartida();//Para la matriz
 			Orden_Juego_Init();
 			estado_actual = ADIVINAR;
 		}else{
 			OJ_SetModo(CREAR_SECUENCIA);
 			Inputs_Update_boton();
 			event = GetEvento();
+			Orden_Juego_ResetPartida();//Para la matriz
 			Orden_Juego_Update(event);
 
 			if(Orden_Juego_Terminado()){

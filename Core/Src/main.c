@@ -55,7 +55,7 @@ int main(void)
   {
     /* USER CODE END WHILE */
 	  Coordinador_Update();
-
+	  HAL_Delay(10); // 10ms para estabilidad
 
     /* USER CODE BEGIN 3 */
   }
