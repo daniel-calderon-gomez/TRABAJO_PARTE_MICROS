@@ -7,13 +7,16 @@
 #include "Matriz_LED.h"
 #define MAX_INTENTOS 8
 
-static FSM_JUEGO estado_actual;
+static volatile FSM_JUEGO estado_actual;
 static ModoJuego modo_juego;
 
 static uint8_t intentos;
 
 static uint8_t entrar_victoria = 0;
 static uint8_t entrar_derrota = 0;
+
+EventoInput event=NONE;
+
 
 void Coordinador_Init(void)
 {
@@ -25,7 +28,6 @@ void Coordinador_Init(void)
 
 void Coordinador_Update(void)
 {
-	EventoInput event = GetEvento();
 
 	if (event == INPUT_RESET)
 	    {
@@ -46,6 +48,7 @@ void Coordinador_Update(void)
 
 	case SELECCION_MODO:
 		  Inputs_Update_pot();
+		  event=GetEvento();
 
 		if(event == INPUT_POTEN_PvP)
 		{
@@ -62,7 +65,6 @@ void Coordinador_Update(void)
 
 
 	case SET_SECUENCIA:
-		  Inputs_Update_boton();
 
 		if (modo_juego == MODO_PvPC){
 			SecuenciaRandom();
@@ -70,6 +72,8 @@ void Coordinador_Update(void)
 			estado_actual = ADIVINAR;
 		}else{
 			OJ_SetModo(CREAR_SECUENCIA);
+			Inputs_Update_boton();
+			event = GetEvento();
 			Orden_Juego_Update(event);
 
 			if(Orden_Juego_Terminado()){
@@ -82,6 +86,7 @@ void Coordinador_Update(void)
 
 	case ADIVINAR:
 		Inputs_Update_boton();
+		event = GetEvento();
 
 		Orden_Juego_Update(event);
 		if(Orden_Juego_Terminado())	//si se han hecho todos los intentos del turno

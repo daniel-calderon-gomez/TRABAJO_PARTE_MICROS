@@ -57,7 +57,7 @@ void LEDRGB_SetColor1(LED_Color color){
 
 	        case LEDRGB_AZUL: PWM_Set1(0, 0, PWM_MAX); break;
 
-	        case LEDRGB_AMARILLO: PWM_Set1(PWM_MAX, PWM_MAX, 0); break;
+	        case LEDRGB_AMARILLO: PWM_Set1(PWM_MAX, 750, 0); break;
 
 	        case LEDRGB_BLANCO: PWM_Set1(PWM_MAX, PWM_MAX, PWM_MAX); break;
 
@@ -74,7 +74,7 @@ void LEDRGB_SetFeedback(LED_Feedback feedback){
 
 	        case FEEDBACK_VERDE: PWM_Set2(0, PWM_MAX, 0); break;
 
-	        case FEEDBACK_AMARILLO: PWM_Set2(PWM_MAX, PWM_MAX, 0); break;
+	        case FEEDBACK_AMARILLO: PWM_Set2(PWM_MAX, 750, 0); break;
 
 	        case FEEDBACK_ROJO:
 

@@ -1,8 +1,5 @@
-#include "stm32f4xx_hal.h"
-#include "LedRGB.h"
 #include "Orden_Juego.h"
-#include "TiposJuego.h"
-#include "Matriz_LED.h"
+
 
 #include <stdlib.h>
 
@@ -23,6 +20,7 @@ static uint8_t ronda_terminada = 0; //flag para que el coordinador sepa que term
 
 static uint8_t index_feedback = 0;
 static uint32_t tiempo_feedback = 0;
+static uint32_t tiempo_led = 0;
 
 static uint8_t numero_intento = 0;
 
@@ -49,28 +47,16 @@ void Orden_Juego_Update(EventoInput event)
 		index_feedback=0;
 		tiempo_feedback=0;
 		estado_ronda = INPUTS_ESPERA;
+		if(OJ_EsColor(event))
+					OJ_ProcesarColor(event);
 		break;
+
 
 	case INPUTS_ESPERA:
-	    if (event == INPUT_ROJO || event ==INPUT_VERDE || event ==INPUT_AZUL || event == INPUT_AMARILLO|| event ==INPUT_BLANCO){
-	        secuencia_intento[pulsaciones_color]=event;
-
-	        OJ_EvColor(event);
-
-
-	        if(modo ==ADIVINAR_SECUENCIA)
-	        {
-	        	MAX7219_Update(numero_intento, pulsaciones_color);//se actualiza la matriz
-	        	if (event!= secuencia_obj[pulsaciones_color])
-	        		ronda_correcta=0;
-	        }
-
-	    	pulsaciones_color++;
-
-	        if (pulsaciones_color>=MAX_PULSACIONES)
-	        	estado_ronda=FIN_RONDA;
-	    }
+		if(OJ_EsColor(event))
+					OJ_ProcesarColor(event);
 		break;
+
 
 	case FIN_RONDA:
 
@@ -177,13 +163,42 @@ Resultado* OJ_GetResultados(void)
 }
 
 
-static LED_Color OJ_EvColor(EventoInput e){
+static void OJ_EvColor(EventoInput e){
 	switch (e) {
-	   case INPUT_ROJO:     return LEDRGB_ROJO;
-	   case INPUT_VERDE:    return LEDRGB_VERDE;
-	   case INPUT_AZUL:     return LEDRGB_AZUL;
-	   case INPUT_AMARILLO: return LEDRGB_AMARILLO;
-	   case INPUT_BLANCO:   return LEDRGB_BLANCO;
-	   default:             return LEDRGB_OFF;
+	   case INPUT_ROJO:     LEDRGB_SetColor1 (LEDRGB_ROJO); break;
+	   case INPUT_VERDE:    LEDRGB_SetColor1 (LEDRGB_VERDE);break;
+	   case INPUT_AZUL:     LEDRGB_SetColor1 (LEDRGB_AZUL);break;
+	   case INPUT_AMARILLO: LEDRGB_SetColor1 (LEDRGB_AMARILLO);break;
+	   case INPUT_BLANCO:   LEDRGB_SetColor1 (LEDRGB_BLANCO);break;
+	   default:             LEDRGB_SetColor1 (LEDRGB_OFF);break;
 	    }
+}
+
+void OJ_ProcesarColor(EventoInput event)
+{
+    secuencia_intento[pulsaciones_color] = event;
+    OJ_EvColor(event);
+    tiempo_led=HAL_GetTick();
+    if ((HAL_GetTick()-tiempo_led) >= LUZFEEDBACK_ON) //se mantiene el feedback porque dura tmabien un segundo
+    	LEDRGB_FeedbackOff();
+
+
+    if (modo == ADIVINAR_SECUENCIA)
+    {
+        MAX7219_Update(numero_intento, pulsaciones_color);
+        if (event != secuencia_obj[pulsaciones_color])
+            ronda_correcta = 0;
+    }
+
+    pulsaciones_color++;
+
+    if (pulsaciones_color >= MAX_PULSACIONES)
+        estado_ronda = FIN_RONDA;
+}
+
+
+int OJ_EsColor(EventoInput event)
+{
+    return (event == INPUT_ROJO || event == INPUT_VERDE || event == INPUT_AZUL ||
+            event == INPUT_AMARILLO || event == INPUT_BLANCO);
 }

@@ -27,6 +27,9 @@ int OJ_VerificacionPartida(void);
 void SecuenciaRandom(void);
 Resultado* OJ_GetResultados(void);
 
-static LED_Color OJ_EvColor(EventoInput e);
+void OJ_ProcesarColor(EventoInput event);
+int OJ_EsColor(EventoInput event);
+
+static void OJ_EvColor(EventoInput e);
 
 #endif /* INC_ORDEN_JUEGO_H_ */

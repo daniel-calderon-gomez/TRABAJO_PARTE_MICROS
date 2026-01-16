@@ -1,21 +1,21 @@
-#define SIN_BOTON 200
-#define BOTON_ROJO_MIN 300
-#define BOTON_ROJO_MAX 700
-#define BOTON_VERDE_MIN 800
-#define BOTON_VERDE_MAX 1200
-#define BOTON_AZUL_MIN 1300
-#define BOTON_AZUL_MAX 1700
-#define BOTON_AMARILLO_MIN 1800
-#define BOTON_AMARILLO_MAX 2200
-#define BOTON_BLANCO_MIN 2300
-#define BOTON_BLANCO_MAX 2700
+#define SIN_BOTON 100
+#define BOTON_ROJO_MIN 200
+#define BOTON_ROJO_MAX 1729
+#define BOTON_VERDE_MIN 2830
+#define BOTON_VERDE_MAX 3039
+#define BOTON_AZUL_MIN 3040
+#define BOTON_AZUL_MAX 3279
+#define BOTON_AMARILLO_MIN 3280
+#define BOTON_AMARILLO_MAX 3567
+#define BOTON_BLANCO_MIN 3570
+#define BOTON_BLANCO_MAX 4000
 
 #include "Inputs.h"
 #include "main.h"
 
 
 
-static EventoInput eventoActual = NONE;
+static volatile EventoInput eventoActual = NONE;
 
 static EventoInput ultimoBoton = NONE;
 static EventoInput ultimoPoten = NONE;
@@ -73,6 +73,7 @@ void Inputs_Update_pot(void) {
 
 
 void Inputs_Update_boton(void) {
+
 	//lectura botones
 	valorBoton = LecturaADC(ADC_BOTON_CHANNEL);
 
@@ -105,8 +106,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_PIN){
 
 
 EventoInput GetEvento(void){
+	__disable_irq();
 	EventoInput Evento=eventoActual;
 	eventoActual=NONE;		//cuando acaba un evento hay que actualizar el enum
+	__enable_irq();
 	return Evento;
 }
 
