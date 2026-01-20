@@ -29,31 +29,27 @@ void Coordinador_Init(void)
 
 void Coordinador_Update(void)
 {
-
-	if (event == INPUT_RESET)
+	if (flag_reset)
 	{
-		MAX7219_Clear();
-		Coordinador_Init();
-		LEDRGB_Off();
-		LEDRGB_FeedbackOff();
-		Inputs_Init();
-		Orden_Juego_Init();
-
-
-
-
-		entrar_victoria = 0;
-		entrar_derrota = 0;
-		return;
+		estado_actual = INICIO;
+		flag_reset = 0;
 	}
 
 	switch (estado_actual)
 	{
 	case INICIO:
+		MAX7219_Clear();
+		LEDRGB_Off();
+		LEDRGB_FeedbackOff();
+
+		Inputs_Init();
 		Orden_Juego_Init();
+
 		intentos = 0;
 		entrar_victoria = 0;
 		entrar_derrota = 0;
+		entrada_seleccion=1;
+		HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 		estado_actual = SELECCION_MODO;
 		break;
 
@@ -167,10 +163,4 @@ void Coordinador_Update(void)
 		estado_actual= INICIO;
 		break;
 	}
-}
-
-
-FSM_JUEGO Coordinador_GetEstado(void)
-{
-    return estado_actual;
 }

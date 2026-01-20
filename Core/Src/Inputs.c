@@ -1,3 +1,5 @@
+#include "Inputs.h"
+
 #define SIN_BOTON 100
 #define BOTON_ROJO_MIN 200
 #define BOTON_ROJO_MAX 2729
@@ -10,12 +12,10 @@
 #define BOTON_BLANCO_MIN 3570
 #define BOTON_BLANCO_MAX 4000
 
-#include "Inputs.h"
-#include "main.h"
-
 
 
 static volatile EventoInput eventoActual = NONE;
+volatile uint8_t flag_reset=0;
 
 static EventoInput ultimoBoton = NONE;
 static EventoInput ultimoPoten = NONE;
@@ -24,7 +24,7 @@ static EventoInput ultimoPoten = NONE;
 static uint16_t valorPoten=0;
 static uint16_t valorBoton=0;
 
-
+uint32_t ultimo_tiempo_reset=0;
 
 void Inputs_Init(void) {
 	eventoActual = NONE;
@@ -103,12 +103,8 @@ void Inputs_Update_boton(void) {
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_PIN){
 	if (GPIO_PIN == RESET_Pin){
-	uint32_t tiempo_actual = HAL_GetTick();
-	if ((tiempo_actual - ultimo_tiempo_reset) > 500) //debouncer
-	{
-		eventoActual = INPUT_RESET;
-		ultimo_tiempo_reset = tiempo_actual;
-	}
+		flag_reset=1;
+		HAL_NVIC_DisableIRQ(EXTI0_IRQn);
 	}
 }
 
