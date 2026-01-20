@@ -1,7 +1,7 @@
 #include "Inputs.h"
 
 #define SIN_BOTON 100
-#define BOTON_ROJO_MIN 200
+#define BOTON_ROJO_MIN 2000
 #define BOTON_ROJO_MAX 2729
 #define BOTON_VERDE_MIN 2830
 #define BOTON_VERDE_MAX 3039

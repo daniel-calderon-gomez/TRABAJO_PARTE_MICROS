@@ -12,7 +12,9 @@
 #define REG_DISPLAY_TEST 0x0F
 
 // Buffer para guardar el estado de las 8 filas
-static uint8_t matrix_buffer[8] = {0};
+uint8_t matrix_buffer[8] = {0};
+uint32_t tiempo_pasado_blink;
+uint32_t tiempo_pasado_cruz;
 
 static void MAX7219_Write(uint8_t reg, uint8_t data) {
     uint8_t txData[2] = {reg, data};
@@ -88,10 +90,11 @@ void MAX7219_Derrota(void) {
         MAX7219_Write(REG_DIGIT_0 + i, triste_rotada[i]);
     }
 }
+
 void MAX7219_Parpadeo_total(void) {
 	int j = 0;
 
-	uint32_t tiempo_pasado_blink=0;
+
 	uint32_t tiempo_actual_blink = HAL_GetTick();
 	if ((tiempo_actual_blink - tiempo_pasado_blink) > 800)
 	{
@@ -112,13 +115,13 @@ void MAX7219_Parpadeo_rapido(void) {
         matrix_buffer[i] = 1;
         MAX7219_Write(REG_DIGIT_0 + i, 0);
     }
-    delay(300);
+    HAL_Delay(300);
     MAX7219_Clear();
 }
 void MAX7219_Parpadeo_cruz(void) {
 	int j = 0;
 
-	uint32_t tiempo_pasado_cruz;
+
 	uint32_t tiempo_actual_cruz = HAL_GetTick();
 	if ((tiempo_actual_cruz - tiempo_pasado_cruz) > 800)
 	{
