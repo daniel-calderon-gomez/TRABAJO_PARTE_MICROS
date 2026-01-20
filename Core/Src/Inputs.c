@@ -102,7 +102,7 @@ void Inputs_Update_boton(void) {
 
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_PIN){
-	if (GPIO_PIN == RESET_Pin){
+	if (GPIO_PIN == GPIO_PIN_0){
 		flag_reset=1;
 		HAL_NVIC_DisableIRQ(EXTI0_IRQn);
 	}

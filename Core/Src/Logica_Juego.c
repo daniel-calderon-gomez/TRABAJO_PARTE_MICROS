@@ -32,5 +32,3 @@ void Logica_Juego_Comparar(EventoInput objetivo[], EventoInput intento[], Result
 }
 
 
-
-

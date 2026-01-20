@@ -49,6 +49,7 @@ void Coordinador_Update(void)
 		entrar_victoria = 0;
 		entrar_derrota = 0;
 		entrada_seleccion=1;
+	    __HAL_GPIO_EXTI_CLEAR_IT(RESET_Pin);
 		HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 		estado_actual = SELECCION_MODO;
 
