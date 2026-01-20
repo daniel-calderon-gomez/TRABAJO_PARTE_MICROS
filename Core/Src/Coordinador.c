@@ -33,6 +33,7 @@ void Coordinador_Update(void)
 	{
 		Coordinador_Init();
 		flag_reset = 0;
+		MAX7219_Parpadeo_cruz
 	}
 
 	switch (estado_actual)

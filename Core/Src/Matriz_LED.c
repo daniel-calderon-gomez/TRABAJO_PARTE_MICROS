@@ -90,12 +90,13 @@ void MAX7219_Derrota(void) {
         MAX7219_Write(REG_DIGIT_0 + i, triste_rotada[i]);
     }
 }
-int j = 1;
+static int j = 1;
 void MAX7219_Parpadeo_total(void) {
 
 	uint32_t tiempo_actual_blink = HAL_GetTick();
 	if ((tiempo_actual_blink - tiempo_pasado_blink) > 800)
 	{
+
 		if(j==1){
 			j=0;
 			for (int i = 0; i < 8; i++) {
@@ -120,13 +121,6 @@ void MAX7219_Parpadeo_rapido(void) {
     MAX7219_Clear();
 }
 void MAX7219_Parpadeo_cruz(void) {
-	int j = 0;
-
-
-	uint32_t tiempo_actual_cruz = HAL_GetTick();
-	if ((tiempo_actual_cruz - tiempo_pasado_cruz) > 800)
-	{
-		if(j==1){
 			uint8_t cruz[8] = {
 					0x81, // Fila 0
 					0x42, // Fila 1
@@ -136,18 +130,12 @@ void MAX7219_Parpadeo_cruz(void) {
 					0x24, // Fila 5:
 					0x42, // Fila 6
 					0x81  // Fila 7
-			};
-			j=0;
-			 for (int i = 0; i < 8; i++) {
-				        matrix_buffer[i] = cruz[i];
-				        MAX7219_Write(REG_DIGIT_0 + i, cruz[i]);
-				    }
-		}
-		else{
-			MAX7219_Clear();
-			j=1;
-		}
-		tiempo_pasado_cruz = tiempo_actual_cruz;
-	}
+	};
+			    for (int i = 0; i < 8; i++) {
+			        matrix_buffer[i] = cruz[8];
+			        MAX7219_Write(REG_DIGIT_0 + i, cruz[i]);
+			    }
+			    HAL_Delay(2000);
+			    MAX7219_Clear();
 }
 
