@@ -51,6 +51,7 @@ void Coordinador_Update(void)
 		entrada_seleccion=1;
 		HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 		estado_actual = SELECCION_MODO;
+
 		break;
 
 
@@ -60,6 +61,7 @@ void Coordinador_Update(void)
 			ArcoirisFeedback_Init();
 			entrada_seleccion=0;
 		}
+		MAX7219_Parpadeo_total();
 		ArcoirisFeedback_Update();
 		Inputs_Update_pot();
 		event=GetEvento();
@@ -70,6 +72,7 @@ void Coordinador_Update(void)
 			estado_actual=SET_SECUENCIA;
 			LEDRGB_FeedbackOff();
 			entrada_seleccion=1;
+			MAX7219_Clear();
 		}
 		else if (event == INPUT_POTEN_PvPC)
 		{
@@ -77,6 +80,7 @@ void Coordinador_Update(void)
 			estado_actual=SET_SECUENCIA;
 			LEDRGB_FeedbackOff();
 			entrada_seleccion=1;
+			MAX7219_Clear();
 		}
 
 		break;

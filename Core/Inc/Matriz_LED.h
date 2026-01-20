@@ -18,4 +18,7 @@ void MAX7219_SetPixel(uint8_t row, uint8_t col);
 void MAX7219_Update(uint8_t intento, uint8_t paso);
 void MAX7219_Victoria(void);
 void MAX7219_Derrota(void);
+void MAX7219_Parpadeo_total(void);
+void MAX7219_Parpadeo_rapido(void);
+void MAX7219_Parpadeo_cruz(void);
 #endif /* INC_MAX7219_MATRIX_H_ */

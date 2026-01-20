@@ -62,8 +62,10 @@ void Orden_Juego_Update(EventoInput event)
 	case FIN_RONDA:
 
 		if (modo==CREAR_SECUENCIA){
-			for (int i=0;i<MAX_PULSACIONES;i++)
+			for (int i=0;i<MAX_PULSACIONES;i++){
 				secuencia_obj[i]=secuencia_intento[i];
+				MAX7219_Parpadeo_rapido();
+			}
 
 			ronda_terminada=1;
 			MAX7219_Clear();
