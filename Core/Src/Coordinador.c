@@ -33,7 +33,7 @@ void Coordinador_Update(void)
 	{
 		Coordinador_Init();
 		flag_reset = 0;
-		MAX7219_Parpadeo_cruz
+		MAX7219_Parpadeo_cruz();
 	}
 
 	switch (estado_actual)
@@ -64,8 +64,9 @@ void Coordinador_Update(void)
 			ArcoirisFeedback_Init();
 			entrada_seleccion=0;
 		}
-		MAX7219_Parpadeo_total();
 		ArcoirisFeedback_Update();
+
+		//MAX7219_Parpadeo_total();
 		Inputs_Update_pot();
 		event=GetEvento();
 
@@ -148,7 +149,7 @@ void Coordinador_Update(void)
 		        MAX7219_Victoria();
 		    }
 		Zumbador_Sonar();
-		 if (Zumbador_FIN()==1)
+		 if (Zumbador_FIN())
 			 estado_actual = INICIO;
 
 		break;
@@ -162,7 +163,7 @@ void Coordinador_Update(void)
 		        MAX7219_Derrota();
 		    }
 		Zumbador_Sonar();
-		 if (Zumbador_FIN()==1)
+		 if (Zumbador_FIN())
 			estado_actual = INICIO;
 		break;
 

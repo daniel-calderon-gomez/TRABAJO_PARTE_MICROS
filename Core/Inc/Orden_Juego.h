@@ -7,6 +7,8 @@
 #include "LedRGB.h"
 #include "TiposJuego.h"
 #include "Matriz_LED.h"
+#include "Zumbador.h"
+
 
 #define MAX_PULSACIONES 5
 
