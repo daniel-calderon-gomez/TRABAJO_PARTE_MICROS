@@ -31,7 +31,7 @@ void Coordinador_Update(void)
 {
 	if (flag_reset)
 	{
-		estado_actual = INICIO;
+		Coordinador_Init();
 		flag_reset = 0;
 	}
 
