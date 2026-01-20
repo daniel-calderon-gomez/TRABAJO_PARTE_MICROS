@@ -44,7 +44,7 @@ static uint16_t LecturaADC(uint32_t canal)	//cambio de canal en la lectura del A
     HAL_ADC_Start(&hadc1);
 
     //bloquea la ejecucion hasta que ADC finalice
-    HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+    HAL_ADC_PollForConversion(&hadc1, 10);
 
     uint16_t valor = HAL_ADC_GetValue(&hadc1);
     HAL_ADC_Stop(&hadc1);
@@ -102,7 +102,14 @@ void Inputs_Update_boton(void) {
 
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_PIN){
-	if (GPIO_PIN == RESET_Pin)	eventoActual=INPUT_RESET;
+	if (GPIO_PIN == RESET_Pin){
+	uint32_t tiempo_actual = HAL_GetTick();
+	if ((tiempo_actual - ultimo_tiempo_reset) > 500) //debouncer
+	{
+		eventoActual = INPUT_RESET;
+		ultimo_tiempo_reset = tiempo_actual;
+	}
+	}
 }
 
 
