@@ -93,8 +93,6 @@ void MAX7219_Derrota(void) {
 
 void MAX7219_Parpadeo_total(void) {
 	int j = 0;
-
-
 	uint32_t tiempo_actual_blink = HAL_GetTick();
 	if ((tiempo_actual_blink - tiempo_pasado_blink) > 800)
 	{
@@ -103,11 +101,12 @@ void MAX7219_Parpadeo_total(void) {
 		else
 			j=1;
 		tiempo_pasado_blink = tiempo_actual_blink;
+		for (int i = 0; i < 8; i++) {
+		        matrix_buffer[i] = j;
+		        MAX7219_Write(REG_DIGIT_0 + i, 0);
+		    }
 	}
-    for (int i = 0; i < 8; i++) {
-        matrix_buffer[i] = j;
-        MAX7219_Write(REG_DIGIT_0 + i, 0);
-    }
+
 }
 void MAX7219_Parpadeo_rapido(void) {
 

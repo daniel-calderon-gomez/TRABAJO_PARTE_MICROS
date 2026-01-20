@@ -32,6 +32,6 @@ int OJ_EsColor(EventoInput event);
 
 static void OJ_EvColor(EventoInput e);
 
-void Orden_Juego_ResetPartida(void); // Prototipo para la matriz
+void Intento_matriz(void); // Prototipo para la matriz
 
 #endif /* INC_ORDEN_JUEGO_H_ */

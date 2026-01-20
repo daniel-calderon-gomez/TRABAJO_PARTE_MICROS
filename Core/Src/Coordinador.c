@@ -52,6 +52,7 @@ void Coordinador_Update(void)
 	    __HAL_GPIO_EXTI_CLEAR_IT(RESET_Pin);
 		HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 		estado_actual = SELECCION_MODO;
+		Intento_matriz();
 
 		break;
 

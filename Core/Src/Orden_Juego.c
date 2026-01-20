@@ -207,10 +207,8 @@ int OJ_EsColor(EventoInput event)
             event == INPUT_AMARILLO || event == INPUT_BLANCO);
 }
 
-void Orden_Juego_ResetPartida(void)//para la matriz
+void Intento_matriz(void)//para la matriz
 {
     numero_intento = 0;
-    MAX7219_Init();
-    MAX7219_Clear();
-    Orden_Juego_Init();
+
 }
