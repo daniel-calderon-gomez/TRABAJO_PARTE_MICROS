@@ -7,12 +7,12 @@ static uint32_t tick_inicio = 0;
 static uint8_t paso = 0;
 static uint8_t zumbador_fin=0;
 
-static void Buzzer_On(uint16_t duty)
+ void Buzzer_On(uint16_t duty)
 {
 	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, duty);
 }
 
-static void Buzzer_Off(void)
+ void Buzzer_Off(void)
 {
 	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 0);
 }

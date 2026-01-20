@@ -7,6 +7,10 @@ extern TIM_HandleTypeDef htim4;
 
 
 #define PWM_MAX 999
+#define Paso_Arcoiris 20
+
+static uint16_t angulo_arcoiris = 0;
+static uint32_t inicio_arcoiris = 0;
 
 static void PWM_Set1(uint16_t r, uint16_t g, uint16_t b)
 {
@@ -82,4 +86,51 @@ void LEDRGB_SetFeedback(LED_Feedback feedback){
 
 	    }
 }
+
+
+void ArcoirisFeedback_Init(){
+	angulo_arcoiris = 0;
+	inicio_arcoiris = HAL_GetTick();
+}
+
+
+void ArcoirisFeedback_Update(){
+	if ((HAL_GetTick() - inicio_arcoiris) < Paso_Arcoiris)
+	        return;
+
+	    inicio_arcoiris = HAL_GetTick();
+
+	    uint8_t r8, g8, b8;
+	    Conversion_Color(angulo_arcoiris, 255, 255, &r8, &g8, &b8);
+
+	    uint16_t r = (uint32_t)r8 * PWM_MAX / 255;
+	    uint16_t g = (uint32_t)g8 * PWM_MAX / 255;
+	    uint16_t b = (uint32_t)b8 * PWM_MAX / 255;
+
+	    PWM_Set2(r, g, b);
+
+	    angulo_arcoiris++;
+	    if (angulo_arcoiris >= 360) angulo_arcoiris = 0;
+}
+
+
+void Conversion_Color(uint16_t ang, uint8_t sat, uint8_t brillo, uint8_t *r, uint8_t *g, uint8_t *b)
+{
+    uint8_t region = ang / 60;	//6 regiones de color del circulo cromatico
+    uint16_t pos_sector = (ang - (region * 60)) * 255 / 60;
+
+    uint8_t p = (uint16_t)brillo * (255 - sat) / 255;	//color base
+    uint8_t q = (uint16_t)brillo * (255 - ((uint16_t)sat * pos_sector) / 255) / 255;	//componente creciente
+    uint8_t t = (uint16_t)brillo * (255 - ((uint16_t)sat * (255 - pos_sector)) / 255) / 255;	//componente decreciente
+
+    switch (region) {
+        case 0: *r = brillo; *g = t; *b = p; break;
+        case 1: *r = q; *g = brillo; *b = p; break;
+        case 2: *r = p; *g = brillo; *b = t; break;
+        case 3: *r = p; *g = q; *b = brillo; break;
+        case 4: *r = t; *g = p; *b = brillo; break;
+        default:*r = brillo; *g = p; *b = q; break;
+    }
+}
+
 

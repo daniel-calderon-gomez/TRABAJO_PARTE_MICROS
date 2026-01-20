@@ -8,8 +8,12 @@ static ModoJuego modo_juego;
 
 static uint8_t intentos;
 
-static uint8_t entrar_victoria = 0;
+static uint8_t entrar_victoria = 0;	//flags victoria/derrota
 static uint8_t entrar_derrota = 0;
+
+static uint8_t entrada_seleccion=1;
+
+
 
 EventoInput event=NONE;
 
@@ -19,6 +23,7 @@ void Coordinador_Init(void)
 	estado_actual=INICIO;
 	modo_juego = MODO_PvPC;
 	intentos = 0;
+	entrada_seleccion=1;
 }
 
 
@@ -52,18 +57,28 @@ void Coordinador_Update(void)
 
 
 	case SELECCION_MODO:
-		  Inputs_Update_pot();
-		  event=GetEvento();
+
+		if(entrada_seleccion){
+			ArcoirisFeedback_Init();
+			entrada_seleccion=0;
+		}
+		ArcoirisFeedback_Update();
+		Inputs_Update_pot();
+		event=GetEvento();
 
 		if(event == INPUT_POTEN_PvP)
 		{
 			modo_juego = MODO_PvP;
 			estado_actual=SET_SECUENCIA;
+			LEDRGB_FeedbackOff();
+			entrada_seleccion=1;
 		}
 		else if (event == INPUT_POTEN_PvPC)
 		{
 			modo_juego = MODO_PvPC;
 			estado_actual=SET_SECUENCIA;
+			LEDRGB_FeedbackOff();
+			entrada_seleccion=1;
 		}
 
 		break;

@@ -27,5 +27,8 @@ void LEDRGB_FeedbackOff(void);
 void LEDRGB_SetColor1(LED_Color color);
 void LEDRGB_SetFeedback(LED_Feedback feedback);
 
+void ArcoirisFeedback_Init(void);
+void ArcoirisFeedback_Update(void);
+
 
 #endif /* INC_LEDRGB_H_ */
