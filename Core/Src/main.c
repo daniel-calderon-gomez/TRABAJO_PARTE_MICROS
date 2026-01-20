@@ -451,6 +451,8 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
+	  Buzzer_On(2000);
+
   }
   /* USER CODE END Error_Handler_Debug */
 }

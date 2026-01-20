@@ -32,13 +32,15 @@ void Coordinador_Update(void)
 
 	if (event == INPUT_RESET)
 	{
+		MAX7219_Clear();
 		Coordinador_Init();
+		LEDRGB_Off();
+		LEDRGB_FeedbackOff();
 		Inputs_Init();
 		Orden_Juego_Init();
 
-		MAX7219_Clear();
-		LEDRGB_Off();
-		LEDRGB_FeedbackOff();
+
+
 
 		entrar_victoria = 0;
 		entrar_derrota = 0;
