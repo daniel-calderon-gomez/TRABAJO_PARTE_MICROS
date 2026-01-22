@@ -80,6 +80,7 @@ void Coordinador_Update(void)
 		}
 		else if (event == INPUT_POTEN_PvPC)
 		{
+			srand(HAL_GetTick());
 			modo_juego = MODO_PvPC;
 			estado_actual=SET_SECUENCIA;
 			LEDRGB_FeedbackOff();

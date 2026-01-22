@@ -78,7 +78,7 @@ void Inputs_Update_boton(void) {
 	//lectura botones
 	valorBoton = LecturaADC(ADC_BOTON_CHANNEL);
 	EventoInput botonPulsando=NONE;
-	if ((HAL_GetTick() - tick_ultima_pulsacion) > 300)
+	if ((HAL_GetTick() - tick_ultima_pulsacion) > 500)
 	{
 	if (valorBoton > BOTON_ROJO_MIN && valorBoton < BOTON_ROJO_MAX){
 		botonPulsando = INPUT_ROJO; tick_ultima_pulsacion = HAL_GetTick();}

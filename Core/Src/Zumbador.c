@@ -42,7 +42,7 @@ void Zumbador_Sonar(void) {
         break;
 
     case BUZZER_VICTORIA:
-        if (paso < 6)
+        if (paso < 10)
         {
             if ((HAL_GetTick() - tick_inicio) > 200)
             {

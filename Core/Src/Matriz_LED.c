@@ -117,8 +117,9 @@ void MAX7219_Parpadeo_rapido(void) {
         matrix_buffer[i] = 0xFF;
         MAX7219_Write(REG_DIGIT_0 + i, 0xFF);
     }
-    HAL_Delay(300);
+    HAL_Delay(150);
     MAX7219_Clear();
+    HAL_Delay(150);
 }
 void MAX7219_Parpadeo_cruz(void) {
 			uint8_t cruz[8] = {
