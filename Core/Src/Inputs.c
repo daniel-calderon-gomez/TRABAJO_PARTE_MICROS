@@ -12,7 +12,7 @@
 #define BOTON_BLANCO_MIN 3570
 #define BOTON_BLANCO_MAX 4000
 
-
+static uint32_t tick_ultima_pulsacion = 0;
 
 static volatile EventoInput eventoActual = NONE;
 volatile uint8_t flag_reset=0;
@@ -77,22 +77,22 @@ void Inputs_Update_boton(void) {
 
 	//lectura botones
 	valorBoton = LecturaADC(ADC_BOTON_CHANNEL);
-
 	EventoInput botonPulsando=NONE;
-
-	if (valorBoton > BOTON_ROJO_MIN && valorBoton < BOTON_ROJO_MAX)
-		botonPulsando = INPUT_ROJO;
-	else if (valorBoton > BOTON_VERDE_MIN && valorBoton < BOTON_VERDE_MAX)
-		botonPulsando = INPUT_VERDE;
-	else if (valorBoton > BOTON_AZUL_MIN && valorBoton < BOTON_AZUL_MAX)
-		botonPulsando = INPUT_AZUL;
-	else if (valorBoton > BOTON_AMARILLO_MIN && valorBoton < BOTON_AMARILLO_MAX)
-		botonPulsando = INPUT_AMARILLO;
-	else if (valorBoton > BOTON_BLANCO_MIN && valorBoton < BOTON_BLANCO_MAX)
-		botonPulsando = INPUT_BLANCO;
+	if ((HAL_GetTick() - tick_ultima_pulsacion) > 300)
+	{
+	if (valorBoton > BOTON_ROJO_MIN && valorBoton < BOTON_ROJO_MAX){
+		botonPulsando = INPUT_ROJO; tick_ultima_pulsacion = HAL_GetTick();}
+	else if (valorBoton > BOTON_VERDE_MIN && valorBoton < BOTON_VERDE_MAX){
+		botonPulsando = INPUT_VERDE; tick_ultima_pulsacion = HAL_GetTick();}
+	else if (valorBoton > BOTON_AZUL_MIN && valorBoton < BOTON_AZUL_MAX){
+		botonPulsando = INPUT_AZUL; tick_ultima_pulsacion = HAL_GetTick();}
+	else if (valorBoton > BOTON_AMARILLO_MIN && valorBoton < BOTON_AMARILLO_MAX){
+		botonPulsando = INPUT_AMARILLO; tick_ultima_pulsacion = HAL_GetTick();}
+	else if (valorBoton > BOTON_BLANCO_MIN && valorBoton < BOTON_BLANCO_MAX){
+		botonPulsando = INPUT_BLANCO; tick_ultima_pulsacion = HAL_GetTick();}
 	else
 		botonPulsando = NONE;
-
+	}
 	if (botonPulsando != NONE && ultimoBoton == NONE)	//detecta flanco
 	    eventoActual = botonPulsando;
 
@@ -116,6 +116,3 @@ EventoInput GetEvento(void){
 	__enable_irq();
 	return Evento;
 }
-
-
-uint16_t GetValorPoten(void)	{return valorPoten;}

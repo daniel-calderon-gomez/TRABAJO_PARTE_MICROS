@@ -94,7 +94,6 @@ void Coordinador_Update(void)
 
 		if (modo_juego == MODO_PvPC){
 			SecuenciaRandom();
-			//Orden_Juego_ResetPartida();//Para la matriz
 			Orden_Juego_Init();
 			OJ_SetModo(ADIVINAR_SECUENCIA);
 			estado_actual = ADIVINAR;
@@ -102,7 +101,6 @@ void Coordinador_Update(void)
 			OJ_SetModo(CREAR_SECUENCIA);
 			Inputs_Update_boton();
 			event = GetEvento();
-			//Orden_Juego_ResetPartida();//Para la matriz
 			Orden_Juego_Update(event);
 
 			if(Orden_Juego_Terminado()){

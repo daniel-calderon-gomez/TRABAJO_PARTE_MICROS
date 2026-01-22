@@ -163,10 +163,6 @@ void SecuenciaRandom(void){
 	        }
 	    }
 }
-Resultado* OJ_GetResultados(void)
-{
-    return resultados;
-}
 
 
 static void OJ_EvColor(EventoInput e){
